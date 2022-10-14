@@ -44,6 +44,14 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - 8080:80
+        networks:
+            - sail
+        environment:
+            PMA_HOST: mysql
 networks:
     sail:
         driver: bridge
