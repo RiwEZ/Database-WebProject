@@ -4,12 +4,14 @@ import SearchBar from '@/Components/SearchBar';
 import ProductViewer from '@/Components/ProductViewer';
 
 export default function Welcome(props) {
+    console.log(props.products)
+
     return (
         <>
             <Head title="Welcome" />
             <div className="min-h-screen ">
                 <div className="mx-auto max-w-6xl">
-                    <div className="flex justify-between">   
+                    <div className="flex justify-between">
                         <div className="py-4">
                             <h1 className="text-3xl font-bold">Legend Model Shop</h1>
                         </div>
@@ -36,10 +38,12 @@ export default function Welcome(props) {
                     </div>
                     <div className="mt-10">
                         <h1 className="text-6xl font-bold leading-normal">LEGEND<br/>MODEL<br/>SHOP</h1>
-                    </div>   
+                    </div>
                     <SearchBar />
                 </div>
-                <ProductViewer />
+                <ProductViewer products={props.products} />
+                <div>
+                </div>
             </div>
         </>
     );
