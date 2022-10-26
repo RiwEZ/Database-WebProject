@@ -35,6 +35,9 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
+            <div className='my-16'>
+                    <h1 className="text-white text-6xl font-bold text-center">REGISTER</h1>
+                </div>
                 <div>
                     <InputLabel forInput="name" value="Name" />
 

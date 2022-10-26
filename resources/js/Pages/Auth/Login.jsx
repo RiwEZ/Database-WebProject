@@ -35,16 +35,18 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
             <form onSubmit={submit}>
+                <div className='my-16'>
+                    <h1 className="text-white text-6xl font-bold text-center">LOGIN</h1>
+                </div>
                 <div>
-                    <InputLabel forInput="email" value="Email" />
+                    <InputLabel forInput="email" value="Email" className="text-white text-xl"/>
 
                     <TextInput
                         type="text"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         autoComplete="username"
                         isFocused={true}
                         handleChange={onHandleChange}
@@ -54,13 +56,13 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password" value="Password" />
+                    <InputLabel forInput="password" value="Password" className="text-white text-xl"/>
 
                     <TextInput
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         autoComplete="current-password"
                         handleChange={onHandleChange}
                     />
@@ -70,25 +72,43 @@ export default function Login({ status, canResetPassword }) {
 
                 <div className="block mt-4">
                     <label className="flex items-center">
-                        <Checkbox name="remember" value={data.remember} handleChange={onHandleChange} />
+                        <Checkbox name="remember" value={data.remember} handleChange={onHandleChange}/>
 
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-white">Remember me</span>
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                {/* <div className='mt-4'>
+                    <div className='flex items-center justify-center'>
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900"
+                            className="underline text-sm text-gray-500 hover:text-gray-700"
                         >
                             Forgot your password?
                         </Link>
                     )}
+                    </div>
+                </div> */}
 
-                    <PrimaryButton className="ml-4" processing={processing}>
-                        Log in
+                <div className="flex items-center justify-center mt-4">
+                    <PrimaryButton className="mt-6" processing={processing}>
+                        Login
                     </PrimaryButton>
+                </div>
+                <div className='my-14'>
+                    <h2 className="or text-white font-bold text-xl"><span>OR</span></h2>
+                </div>
+                <div className='mt-4'>
+                    <div className='flex items-center justify-center'>
+                        <h1 className="text-white text-md font-bold text-center">NEED AN ACCOUNT?</h1>
+                        <Link
+                            href={route('register')}
+                            className="underline text-2xl font-bold text-white hover:text-gray-500 mx-4 mb-2 transition ease-in-out duration-150"
+                        >
+                            SIGN UP
+                        </Link>
+                    </div>
                 </div>
             </form>
         </GuestLayout>

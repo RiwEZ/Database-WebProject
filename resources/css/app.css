@@ -5,3 +5,16 @@
 .banner {
     background-position-x: 62%;
 }
+
+.or {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 4px solid rgb(255, 255, 255); 
+    line-height: 0em;
+    margin: 10px 0 20px; 
+ } 
+ 
+ .or span { 
+     background:rgb(0, 0, 0); 
+     padding:0 20px; 
+ }
