@@ -9,7 +9,7 @@ export default function Welcome(props) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="min-h-screen ">
+            <div className="banner min-h-screen bg-[url('../img/rx7-1993.png')] bg-[center_-8rem] bg-no-repeat">
                 <div className="mx-auto max-w-6xl">
                     <div className="flex justify-between">
                         <div className="py-4">
