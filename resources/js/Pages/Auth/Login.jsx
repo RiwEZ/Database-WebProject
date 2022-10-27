@@ -40,7 +40,7 @@ export default function Login({ status, canResetPassword }) {
                     <h1 className="text-white text-6xl font-bold text-center">LOGIN</h1>
                 </div>
                 <div>
-                    <InputLabel forInput="email" value="Email" className="text-white text-xl"/>
+                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl py-2"/>
 
                     <TextInput
                         type="text"
@@ -56,7 +56,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password" value="Password" className="text-white text-xl"/>
+                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2"/>
 
                     <TextInput
                         type="password"
@@ -74,7 +74,7 @@ export default function Login({ status, canResetPassword }) {
                     <label className="flex items-center">
                         <Checkbox name="remember" value={data.remember} handleChange={onHandleChange}/>
 
-                        <span className="ml-2 text-sm text-white">Remember me</span>
+                        <span className="ml-2 text-sm font-semibold text-gray-500">REMEMBER ME</span>
                     </label>
                 </div>
 

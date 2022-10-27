@@ -32,7 +32,7 @@ export default function ProductViewer(props) {
                     <label className="ml-2">VINTAGE CARS</label><br />
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-10 m-10">
+            <div className="grid grid-cols-2 gap-10 mt-10 pr-24">
                 {products && products.map(p =>
                     <div className="p-4 bg-white">
                         <h4 className="text-2xl">{p.productName}</h4>
