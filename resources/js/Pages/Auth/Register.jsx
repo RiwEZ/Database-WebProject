@@ -35,17 +35,17 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
-            <div className='my-16'>
+            <div className='my-10'>
                     <h1 className="text-white text-6xl font-bold text-center">REGISTER</h1>
                 </div>
-                <div>
-                    <InputLabel forInput="name" value="Name" />
+                {/* <div>
+                    <InputLabel forInput="name" value="NAME" className="text-white text-xl py-2"/>
 
                     <TextInput
                         type="text"
                         name="name"
                         value={data.name}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         autoComplete="name"
                         isFocused={true}
                         handleChange={onHandleChange}
@@ -53,16 +53,16 @@ export default function Register() {
                     />
 
                     <InputError message={errors.name} className="mt-2" />
-                </div>
+                </div> */}
 
-                <div className="mt-4">
-                    <InputLabel forInput="email" value="Email" />
+                <div className="">
+                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl pb-2" />
 
                     <TextInput
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         autoComplete="username"
                         handleChange={onHandleChange}
                         required
@@ -72,13 +72,13 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password" value="Password" />
+                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2" />
 
                     <TextInput
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         autoComplete="new-password"
                         handleChange={onHandleChange}
                         required
@@ -88,13 +88,13 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password_confirmation" value="Confirm Password" />
+                    <InputLabel forInput="password_confirmation" value="CONFIRM PASSWORD" className="text-white text-xl pb-2" />
 
                     <TextInput
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full py-4"
                         handleChange={onHandleChange}
                         required
                     />
@@ -102,14 +102,28 @@ export default function Register() {
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
+                <div className="flex items-center justify-center mt-4">
+                    {/* <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
                         Already registered?
-                    </Link>
+                    </Link> */}
 
-                    <PrimaryButton className="ml-4" processing={processing}>
+                    <PrimaryButton className="mt-6" processing={processing}>
                         Register
                     </PrimaryButton>
+                </div>
+                <div className='my-14'>
+                    <h2 className="or text-white font-bold text-xl"><span>OR</span></h2>
+                </div>
+                <div className='mt-4'>
+                    <div className='flex items-center justify-center'>
+                        <h1 className="text-white text-md font-bold text-center">ALREADY A USER?</h1>
+                        <Link
+                            href={route('login')}
+                            className="underline text-2xl font-bold text-white hover:text-gray-500 mx-4 mb-2 transition ease-in-out duration-150"
+                        >
+                            LOGIN
+                        </Link>
+                    </div>
                 </div>
             </form>
         </GuestLayout>
