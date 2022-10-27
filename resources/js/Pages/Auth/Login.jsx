@@ -40,7 +40,7 @@ export default function Login({ status, canResetPassword }) {
                     <h1 className="text-white text-6xl font-bold text-center">LOGIN</h1>
                 </div>
                 <div>
-                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl py-2"/>
+                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl py-2 font-semibold"/>
 
                     <TextInput
                         type="text"
@@ -56,7 +56,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2"/>
+                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2 font-semibold"/>
 
                     <TextInput
                         type="password"
@@ -101,7 +101,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 <div className='mt-4'>
                     <div className='flex items-center justify-center'>
-                        <h1 className="text-white text-md font-bold text-center">NEED AN ACCOUNT?</h1>
+                        <h1 className="text-white text-md font-semibold text-center">NEED AN ACCOUNT?</h1>
                         <Link
                             href={route('register')}
                             className="underline text-2xl font-bold text-white hover:text-gray-500 mx-4 mb-2 transition ease-in-out duration-150"

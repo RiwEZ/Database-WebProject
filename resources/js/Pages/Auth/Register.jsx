@@ -56,7 +56,7 @@ export default function Register() {
                 </div> */}
 
                 <div className="">
-                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl pb-2" />
+                    <InputLabel forInput="email" value="EMAIL" className="text-white text-xl pb-2 font-semibold" />
 
                     <TextInput
                         type="email"
@@ -72,7 +72,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2" />
+                    <InputLabel forInput="password" value="PASSWORD" className="text-white text-xl pb-2 font-semibold" />
 
                     <TextInput
                         type="password"
@@ -88,7 +88,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel forInput="password_confirmation" value="CONFIRM PASSWORD" className="text-white text-xl pb-2" />
+                    <InputLabel forInput="password_confirmation" value="CONFIRM PASSWORD" className="text-white text-xl pb-2 font-semibold" />
 
                     <TextInput
                         type="password"
@@ -116,7 +116,7 @@ export default function Register() {
                 </div>
                 <div className='mt-4'>
                     <div className='flex items-center justify-center'>
-                        <h1 className="text-white text-md font-bold text-center">ALREADY A USER?</h1>
+                        <h1 className="text-white text-md font-semibold text-center">ALREADY A USER?</h1>
                         <Link
                             href={route('login')}
                             className="underline text-2xl font-bold text-white hover:text-gray-500 mx-4 mb-2 transition ease-in-out duration-150"
