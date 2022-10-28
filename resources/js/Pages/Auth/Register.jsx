@@ -35,11 +35,11 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
-            <div className='my-10'>
+            <div className='my-5'>
                     <h1 className="text-white text-6xl font-bold text-center">REGISTER</h1>
                 </div>
-                {/* <div>
-                    <InputLabel forInput="name" value="NAME" className="text-white text-xl py-2"/>
+                <div>
+                    <InputLabel forInput="name" value="NAME" className="text-white text-xl py-2 font-semibold"/>
 
                     <TextInput
                         type="text"
@@ -53,9 +53,9 @@ export default function Register() {
                     />
 
                     <InputError message={errors.name} className="mt-2" />
-                </div> */}
+                </div>
 
-                <div className="">
+                <div className="mt-4">
                     <InputLabel forInput="email" value="EMAIL" className="text-white text-xl pb-2 font-semibold" />
 
                     <TextInput

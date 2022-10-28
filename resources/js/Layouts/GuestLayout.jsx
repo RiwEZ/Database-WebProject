@@ -7,7 +7,9 @@ export default function Guest({ children }) {
         <div className="grid grid-cols-3 gap-0 w-full h-screen">
             <div className="col-span-2 bg-[url('../img/boeing-767.png')] bg-no-repeat bg-[center_26rem] w-full h-full">
                 <div className="py-12 px-20">
+                    <Link href="/">
                     <h1 className="text-3xl font-bold">LEGEND MODEL SHOP</h1>
+                    </Link>
                 </div>
                 <div className="py-4 px-20">
                         <h1 className="text-7xl font-bold leading-normal">DISCOVER<br/>FANTASTIC<br/>MODELS</h1>
