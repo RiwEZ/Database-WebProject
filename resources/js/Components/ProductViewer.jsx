@@ -58,8 +58,8 @@ export default function ProductViewer(props) {
                 <h3 className="text-2xl font-bold">Filter</h3>
                 <div>
                     <h4>PRICE RANGE</h4>
-                    <input type="number" value={minPrice} onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
-                    <input type="number" value={maxPrice} onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+                    <input type="number" min="0" value={minPrice} onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                    <input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
                 </div>
                 <div>
                     <h4>PRODUCT LINE</h4>
