@@ -24,6 +24,7 @@ docker run --rm \
 - [Laravel Install](https://laravel.com/docs/9.x/installation)
 - [Docker WSL](https://docs.docker.com/desktop/windows/wsl/)
 - [Git on WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-git)
+- [Laravel on Window](https://kleypot.com/laravel-development-windows-2022/)
 
 ## About Laravel
 

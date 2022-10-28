@@ -4,7 +4,7 @@ import SearchBar from '@/Components/SearchBar';
 import ProductViewer from '@/Components/ProductViewer';
 
 export default function Welcome(props) {
-    console.log(props.products)
+    //console.log(props.products)
 
     return (
         <>
