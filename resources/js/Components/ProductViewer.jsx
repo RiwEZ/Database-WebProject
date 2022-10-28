@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from '@inertiajs/inertia-react';
 
 const type_filter = [
     {name: "Classic Cars", selected: false},
@@ -84,14 +85,14 @@ export default function ProductViewer(props) {
             </div>
             <div className="grid grid-cols-2 gap-10 mt-10 pr-24">
                 {products && products.map(p =>
-                    <div className="p-4 bg-white" key={p.productCode}>
+                    <div className="p-4 bg-white" key={p.productCode.toString()}>
                         <h4 className="text-2xl">{p.productName}</h4>
                         <p>{p.productDescription}</p>
                         <h5 className="font-bold">Scale: {p.productScale}</h5>
                         <h5 className="font-bold">In Stock: {p.quantityInStock}</h5>
                         <div className="flex justify-between">
                             <h5 className="font-bold">Price {p.buyPrice}$</h5>
-                            <button className="border border-black">ADD TO CART</button>
+                            <Link href={`/add-to-cart/${p.productCode}`} className="btn border border-black">ADD TO CART</Link>
                         </div>
                     </div>
                 )}

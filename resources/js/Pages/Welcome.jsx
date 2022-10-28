@@ -24,7 +24,7 @@ export default function Welcome(props) {
                             {props.auth.user ? (
                                 <div className="flex flex-row">
                                     <Link
-                                        href={route("dashboard")}
+                                        href='cart'
                                         className="text-md text-gray-700 font-semibold px-4"
                                     >
                                         CART
