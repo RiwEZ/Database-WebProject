@@ -37,7 +37,7 @@ export default function Cart({auth, cartBox, errors}) {
                                     Total
                                 </h3>
                             </div>
-                            {Object.keys(carts).map((key, index) =>
+                            {carts && Object.keys(carts).map((key, index) =>
                                                         <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5" key={index}>
                                                         <div class="flex w-2/5">
                                                             <div class="w-20">
