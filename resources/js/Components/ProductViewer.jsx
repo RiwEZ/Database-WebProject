@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from '@inertiajs/inertia-react';
-
+import '../../css/product.css';
 const type_filter = [
     {name: "Classic Cars", selected: false},
     {name: "Motorcycles", selected: false},
@@ -11,7 +11,9 @@ const type_filter = [
     {name: "Vintage Cars", selected: false},
 ];   // เอาไว้แค่ ประเภทรถ
 
-const price_filter = [{name: "By PRICE", selected: false},];  // ใส่่อย่างอื่นเพิ่มได้อีก ,scale ? year
+const price_filter = [{name: "By PRICE", selected: false},
+// {name: "scale", selected: false},
+];  // ใส่่อย่างอื่นเพิ่มได้อีก ,scale ? year
 
 export default function ProductViewer({products, searchValue}) {
     const [minPrice, setMinPrice] = useState(0);
@@ -44,6 +46,7 @@ export default function ProductViewer({products, searchValue}) {
 
 
     function checkFilter(product) {
+        console.log(product)
         let type_selected = false;
         for (let i = 0; i < type_filters.length; i++) {
             if (type_filters[i].selected) {    
@@ -74,8 +77,32 @@ export default function ProductViewer({products, searchValue}) {
     }
     
 
+    function catalog_icon(productLine) {
+        
+        switch(productLine) {
+            case 'Classic Cars':
+              return '🚗';
+            case 'Motorcycles':
+              return '🏍️';
+            case 'Planes':
+              return '✈️';
+            case 'Ships':
+              return '🚤';
+            case 'Trains':
+              return '🚂';
+            case 'Trucks and Buses':
+              return '🚌';
+            case 'Vintage Cars':
+            return '🛺';
+            default:
+              return 'foo';
+          }
+     
+        return "";
+    }
+    
     function range_PRICE() {
-        console.log(usePrice[0].selected)
+        
         if (usePrice[0].selected) {
             return (<><div>        
                 <h4>PRICE RANGE</h4>                       
@@ -87,7 +114,7 @@ export default function ProductViewer({products, searchValue}) {
      
         return "";
     }
-
+ 
     return (
         <>
         <div className="bg-black mt-6 flex">
@@ -129,8 +156,10 @@ export default function ProductViewer({products, searchValue}) {
                     .map(p =>
 
                     <div className="p-4 bg-white" key={p.productCode}>
-                        <h4 className="text-2xl">{p.productName}</h4>
-                        <p>{p.productDescription}</p>
+                        <h4 className="text-2xl">{p.productName} : {catalog_icon(p.productLine)}</h4>
+                         
+                        {/* <p >{p.productDescription}</p>   */}
+                        <abbr title={p.productDescription}>Details</abbr>
                         <h5 className="font-bold">Scale: {p.productScale}</h5>
                         <h5 className="font-bold">In Stock: {p.quantityInStock}</h5>
                         <div className="flex justify-between">
