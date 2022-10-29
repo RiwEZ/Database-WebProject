@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from '@inertiajs/inertia-react';
 
 const type_filter = [
-    {name: "Classic Car aas", selected: false},
+    {name: "Classic Cars", selected: false},
     {name: "Motorcycles", selected: false},
     {name: "Planes", selected: false},
     {name: "Ships", selected: false},
