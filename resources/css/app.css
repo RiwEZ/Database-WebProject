@@ -24,3 +24,7 @@
      background:rgb(0, 0, 0); 
      padding:0 20px; 
  }
+
+ .white-outline-text {
+    text-shadow: 2px 3px 7px white
+ }

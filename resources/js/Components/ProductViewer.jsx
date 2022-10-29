@@ -117,8 +117,8 @@ export default function ProductViewer({products, searchValue}) {
  
     return (
         <>
-        <div className="bg-black mt-6 flex">
-            <div className="bg-white m-10 p-4">
+        <div className="bg-black mt-6 flex px-8 flex-col lg:flex-row justify-center">
+            <div className="bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 ">
                 <h3 className="text-2xl font-bold">Filter</h3>
                 <div>
                 {usePrice && usePrice.map(P =>
@@ -150,7 +150,7 @@ export default function ProductViewer({products, searchValue}) {
                     </ul>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-10 my-10 pr-24">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
                 {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
                     .map(p =>
