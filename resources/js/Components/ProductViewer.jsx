@@ -46,7 +46,6 @@ export default function ProductViewer({products, searchValue}) {
 
 
     function checkFilter(product) {
-        console.log(product)
         let type_selected = false;
         for (let i = 0; i < type_filters.length; i++) {
             if (type_filters[i].selected) {    
@@ -54,24 +53,24 @@ export default function ProductViewer({products, searchValue}) {
                 break;
             }
         }
-      
+         
         let price = product.buyPrice;
-        if( !usePrice[0].selected){
-            if (  !type_selected   ) {
+        // if( !usePrice[0].selected){
+        //     if (  !type_selected   ) {
+        //         return true;
+        //     }
+        //     if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice ||  isNaN(minPrice)  )  && (price <= maxPrice ||  isNaN(maxPrice) ) ) {
+        //     return true;
+        //     }
+        // }
+        // if( usePrice[0].selected){
+            if (  !type_selected && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))   ) {
                 return true;
             }
-            if (type_filters.find(f => f.name === product.productLine && f.selected) && price >= minPrice && price <= maxPrice) {
-            return true;
-            }
-        }
-        if( usePrice[0].selected){
-            if (  !type_selected && price >= minPrice && price <= maxPrice    ) {
-                return true;
-            }
-            if (type_filters.find(f => f.name === product.productLine && f.selected) && price >= minPrice && price <= maxPrice) {
+            if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))) {
                 return true;
                 }
-        }
+        // }
          
         return false;
     }
@@ -103,24 +102,30 @@ export default function ProductViewer({products, searchValue}) {
     
     function range_PRICE() {
         
-        if (usePrice[0].selected) {
-            return (<><div>        
-                <h4>PRICE RANGE</h4>                       
-                <input type="number" min="0" value={minPrice} onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
-                <input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+        // if (usePrice[0].selected) {
+            return (<><div >    
+                <h4>PRICE RANGE</h4>            
+                <div className="flex flex-row justify-evenly">
+                <input className="w-1/2 px-2 py-1 text-slate-600 relative rounded text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                <>   :   </>      
+                <input className="w-1/2 px-2 py-1 text-slate-600 relative rounded text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+                    
+                </div>           
                 </div>
             </>)
-        }
+        // }
      
-        return "";
+        // return "";
     }
  
     return (
         <>
-        <div className="bg-black mt-6 flex px-8 flex-col lg:flex-row justify-center">
-            <div className="bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 ">
+        <div className="bg-black mt-6 flex px-8 flex-col lg:flex-row justify-items-start">
+        <aside class="w-1/4 h-screen sticky top-0" aria-label="Sidebar">
+            {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
+            <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800 m-auto lg:m-10">
                 <h3 className="text-2xl font-bold">Filter</h3>
-                <div>
+                {/* <div>
                 {usePrice && usePrice.map(P =>
                             <li>
                                 <input
@@ -129,11 +134,11 @@ export default function ProductViewer({products, searchValue}) {
                                     onChange={e => {handleFilter({...P,selected: e.target.checked})}}
                                 ></input>
                                 <label className="ml-2">{P.name.toUpperCase()}</label>
-                        
+                         */}
                                 {range_PRICE()}
-                            </li>
+                            {/* </li>
                         )}
-                </div>
+                </div> */}
                 <div>
                     <h4>PRODUCT TYPE</h4>
                     <ul>
@@ -150,7 +155,8 @@ export default function ProductViewer({products, searchValue}) {
                     </ul>
                 </div>
             </div>
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
+            </aside>
+            <div className="w-2/3 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
                 {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
                     .map(p =>
