@@ -106,7 +106,7 @@ export default function ProductViewer({products, searchValue}) {
         if (usePrice[0].selected) {
             return (<><div>        
                 <h4>PRICE RANGE</h4>                       
-                 <input type="number" min="0" value={minPrice} onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                <input type="number" min="0" value={minPrice} onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
                 <input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
                 </div>
             </>)
@@ -156,7 +156,8 @@ export default function ProductViewer({products, searchValue}) {
                     .map(p =>
 
                     <div className="p-4 bg-white" key={p.productCode}>
-                        <h4 className="text-2xl">{p.productName} : {catalog_icon(p.productLine)}</h4>
+                        <h4 className="text-2xl">{p.productName} </h4>
+                        <h4>-{p.productLine}: {catalog_icon(p.productLine)}</h4>
                          
                         {/* <p >{p.productDescription}</p>   */}
                         <abbr title={p.productDescription}>Details</abbr>
