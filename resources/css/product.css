@@ -1,21 +1,16 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
-  }
-  
-  .container {
+.container {
     background-color: black;
     line-height: 1.5;
     margin: 1 rem;
     padding: 40px 25px;
-  }
-  
-  abbr {
+}
+
+abbr {
     font-style: italic;
-    position: relative
-  }
-  
-  abbr:hover::after {
+    position: relative;
+}
+
+abbr:hover::after {
     background: #add8e6;
     border-radius: 4px;
     bottom: 100%;
@@ -23,8 +18,7 @@ body {
     display: block;
     left: 100%;
     padding: 1em;
-    position: absolute;    
+    position: absolute;
     width: 280px;
     z-index: 1;
-  }
-  
+}
