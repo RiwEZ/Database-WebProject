@@ -1,12 +1,10 @@
-import React from "react";
-import { Link, Head } from "@inertiajs/inertia-react";
-import SearchBar from "@/Components/SearchBar";
-import ProductViewer from "@/Components/ProductViewer";
-import UserDropdown from "@/Components/UserDropdown";
+import React, { useState } from 'react';
+import { Link, Head } from '@inertiajs/inertia-react';
+import SearchBar from '@/Components/SearchBar';
+import ProductViewer from '@/Components/ProductViewer';
 
 export default function Welcome(props) {
-    //console.log(props.products)
-    //console.log(props.auth.user.name)
+    const [searchValue, setSearchValue] = useState("");
 
     return (
         <>
@@ -60,10 +58,13 @@ export default function Welcome(props) {
                             MODELS
                         </h1>
                     </div>
-                    <SearchBar />
+                    <SearchBar onChange={(e) => {
+                        setSearchValue(e.target.value);
+                    }} />
                 </div>
-                <ProductViewer products={props.products} />
-                <div></div>
+                <ProductViewer products={props.products} searchValue={searchValue}/>
+                <div>
+                </div>
             </div>
         </>
     );

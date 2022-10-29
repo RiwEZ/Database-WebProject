@@ -11,11 +11,10 @@ const type_filter = [
     {name: "Vintage Cars", selected: false},
 ];
 
-export default function ProductViewer(props) {
+export default function ProductViewer({products, searchValue}) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(99999);
     const [filters, setFilters] = useState(type_filter);
-    const [products, setProducts] = useState(props.products);
 
     function handleFilterChange(filter) {
         setFilters(filters.map(f => {
@@ -27,10 +26,6 @@ export default function ProductViewer(props) {
             }
         }));
     }
-
-    useEffect(() => {
-        setProducts(props.products.filter(p => checkFilter(p)));
-    }, [filters, minPrice, maxPrice])
 
     function checkFilter(product) {
         let filter_selected = false;
@@ -83,9 +78,12 @@ export default function ProductViewer(props) {
                     </ul>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-10 mt-10 pr-24">
-                {products && products.map(p =>
-                    <div className="p-4 bg-white" key={p.productCode.toString()}>
+            <div className="grid grid-cols-2 gap-10 my-10 pr-24">
+                {products &&
+                    products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
+                    .filter(p => checkFilter(p))
+                    .map(p =>
+                    <div className="p-4 bg-white" key={p.productCode}>
                         <h4 className="text-2xl">{p.productName}</h4>
                         <p>{p.productDescription}</p>
                         <h5 className="font-bold">Scale: {p.productScale}</h5>
