@@ -103,12 +103,12 @@ export default function ProductViewer({products, searchValue}) {
     function range_PRICE() {
         
         // if (usePrice[0].selected) {
-            return (<><div >    
+            return (<><div className="py-4">    
                 <h4>PRICE RANGE</h4>            
                 <div className="flex flex-row justify-evenly">
-                <input className="w-1/2 px-2 py-1 text-slate-600 relative rounded text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                <input className="w-1/2 px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
                 <>   :   </>      
-                <input className="w-1/2 px-2 py-1 text-slate-600 relative rounded text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+                <input className="w-1/2 px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
                     
                 </div>           
                 </div>
@@ -123,8 +123,8 @@ export default function ProductViewer({products, searchValue}) {
         <div className="bg-black mt-6 flex px-8 flex-col lg:flex-row justify-items-start">
         <aside class="w-1/4 h-screen sticky top-0" aria-label="Sidebar">
             {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
-            <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800 m-auto lg:m-10">
-                <h3 className="text-2xl font-bold">Filter</h3>
+            <div class="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
+                <h3 className="text-2xl font-bold">FILTER</h3>
                 {/* <div>
                 {usePrice && usePrice.map(P =>
                             <li>
@@ -163,10 +163,10 @@ export default function ProductViewer({products, searchValue}) {
 
                     <div className="p-4 bg-white" key={p.productCode}>
                         <h4 className="text-2xl">{p.productName} </h4>
-                        <h4>-{p.productLine}: {catalog_icon(p.productLine)}</h4>
+                        <h4>{p.productLine}: {catalog_icon(p.productLine)}</h4>
                          
                         {/* <p >{p.productDescription}</p>   */}
-                        <abbr title={p.productDescription}>Details</abbr>
+                        <abbr title="" data={p.productDescription}>Details</abbr>
                         <h5 className="font-bold">Scale: {p.productScale}</h5>
                         <h5 className="font-bold">In Stock: {p.quantityInStock}</h5>
                         <div className="flex justify-between">
