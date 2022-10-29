@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Head } from '@inertiajs/inertia-react';
 import SearchBar from '@/Components/SearchBar';
 import ProductViewer from '@/Components/ProductViewer';
+import UserDropdown from '@/Components/UserDropdown';
 
 export default function Welcome(props) {
     const [searchValue, setSearchValue] = useState("");

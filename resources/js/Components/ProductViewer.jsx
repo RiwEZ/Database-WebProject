@@ -60,8 +60,8 @@ export default function ProductViewer({products, searchValue}) {
                 <div>
                     <h4>PRODUCT LINE</h4>
                     <ul>
-                        {filters && filters.map(filter =>
-                            <li>
+                        {filters && filters.map((filter, i) =>
+                            <li key={i}>
                                 <input
                                     type="checkbox"
                                     checked={filter.selected}
