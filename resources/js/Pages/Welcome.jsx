@@ -1,16 +1,39 @@
-import React, { useState } from 'react';
-import { Link, Head } from '@inertiajs/inertia-react';
-import SearchBar from '@/Components/SearchBar';
-import ProductViewer from '@/Components/ProductViewer';
-import UserDropdown from '@/Components/UserDropdown';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, Head } from "@inertiajs/inertia-react";
+import SearchBar from "@/Components/SearchBar";
+import ProductViewer from "@/Components/ProductViewer";
+import UserDropdown from "@/Components/UserDropdown";
+import ProductViewNavBar from "@/Components/ProductViewNavBar";
 
 export default function Welcome(props) {
     const [searchValue, setSearchValue] = useState("");
+    const [showProductNavBar, setShowProductNavBar] = useState(false);
+
+    const bannerRef = useRef(null);
+
+    const handleBannerScroll = (e) => {
+        if (bannerRef.current.getBoundingClientRect().bottom <= 0) {
+            setShowProductNavBar(true);
+        } else {
+            setShowProductNavBar(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleBannerScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleBannerScroll);
+        };
+    }, [handleBannerScroll]);
 
     return (
         <>
             <Head title="Welcome" />
-            <div className="banner min-h-screen bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat">
+            <div
+                className="banner bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat"
+                ref={bannerRef}
+            >
                 <div className="mx-auto max-w-6xl">
                     <div className="flex justify-between">
                         <div className="p-4">
@@ -23,7 +46,7 @@ export default function Welcome(props) {
                             {props.auth.user ? (
                                 <div className="flex flex-row">
                                     <Link
-                                        href='cart'
+                                        href="cart"
                                         className="text-md text-gray-700 font-semibold px-4"
                                     >
                                         CART
@@ -55,18 +78,35 @@ export default function Welcome(props) {
                             HIGHLY DETAILED
                             <br />
                             VEHICLE
-                            <br/>
+                            <br />
                             MODELS
                         </h1>
                     </div>
-                    <SearchBar onChange={(e) => {
-                        setSearchValue(e.target.value);
-                    }} />
-                </div>
-                <ProductViewer products={props.products} searchValue={searchValue}/>
-                <div>
+                    <div>
+                        <SearchBar
+                            onChange={(e) => {
+                                setSearchValue(e.target.value);
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
+            <div
+                className="mx-auto sticky top-0 bg-white z-50 border-b-4 border-black"
+                style={{ visibility: showProductNavBar ? "visible" : "hidden" }}
+            >
+                <ProductViewNavBar
+                    auth={props.auth}
+                    searchOnChange={(e) => {
+                        setSearchValue(e.target.value);
+                    }}
+                />
+            </div>
+            <ProductViewer
+                auth={props.auth}
+                products={props.products}
+                searchValue={searchValue}
+            />
         </>
     );
 }

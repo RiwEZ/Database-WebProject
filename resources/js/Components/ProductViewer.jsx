@@ -120,8 +120,8 @@ export default function ProductViewer({products, searchValue}) {
  
     return (
         <>
-        <div className="bg-black mt-6 flex px-8 flex-col lg:flex-row justify-items-start">
-        <aside class="w-1/4 h-screen sticky top-0" aria-label="Sidebar">
+        <div className="bg-black flex px-8 flex-col lg:flex-row justify-items-center">
+        <div class="w-1/4 h-screen sticky top-24" aria-label="Sidebar">
             {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
             <div class="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
                 <h3 className="text-2xl font-bold">FILTER</h3>
@@ -155,7 +155,7 @@ export default function ProductViewer({products, searchValue}) {
                     </ul>
                 </div>
             </div>
-            </aside>
+            </div>
             <div className="w-2/3 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
                 {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
