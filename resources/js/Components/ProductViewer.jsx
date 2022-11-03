@@ -80,31 +80,6 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
         return false;
     }
     
-
-    function catalog_icon(productLine) {
-        
-        switch(productLine) {
-            case 'Classic Cars':
-              return '🚗';
-            case 'Motorcycles':
-              return '🏍️';
-            case 'Planes':
-              return '✈️';
-            case 'Ships':
-              return '🚤';
-            case 'Trains':
-              return '🚂';
-            case 'Trucks and Buses':
-              return '🚌';
-            case 'Vintage Cars':
-            return '🛺';
-            default:
-              return 'foo';
-          }
-     
-        return "";
-    }
-    
     function range_PRICE() {
         
         // if (usePrice[0].selected) {
@@ -139,9 +114,9 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
             </div>
         </div>
         <div className="bg-black flex px-8 flex-col lg:flex-row justify-items-center">
-        <div class="w-1/4 h-screen sticky top-24" aria-label="Sidebar">
+        <div className="w-1/4 h-screen sticky top-24" aria-label="Sidebar">
             {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
-            <div class="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
+            <div className="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
                 <h3 className="text-2xl font-bold">FILTER</h3>
                 {/* <div>
                 {usePrice && usePrice.map(P =>
@@ -178,19 +153,18 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                 {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
                     .map(p =>
-
-                    <div className="p-4 bg-white h-min" key={p.productCode}>
-                        <h4 className="text-2xl">{p.productName} </h4>
-                        <h4>{p.productLine}: {catalog_icon(p.productLine)}</h4>
-                         
-                        {/* <p >{p.productDescription}</p>   */}
-                        <abbr title="" data={p.productDescription}>Details</abbr>
-                        <h5 className="font-bold">Scale: {p.productScale}</h5>
-                        <h5 className="font-bold">In Stock: {p.quantityInStock}</h5>
+                    <div className="transition ease-in-out p-6 bg-white h-min hover:scale-110" key={p.productCode}>
+                        {/* picture here */}
                         <div className="flex justify-between">
-                            <h5 className="font-bold">Price {p.buyPrice}$</h5>
-                            <Link href={`/add-to-cart/${p.productCode}`} className="btn border border-black font-bold p-1 hover:bg-black hover:text-white transition ease-in-out duration-150">ADD TO CART</Link>
+                            <h4 className="text-2xl font-bold mr-0.5">{p.productName} </h4>
+                            <div className="bg-black h-min">
+                                <h4 className="text-white font-bold text-xl p-1">{p.productScale}</h4>
+                            </div>
                         </div>
+                        <h4 className="pt-2 text-xl font-bold">{p.productLine}</h4>
+                        <br />
+                        <h5 className="text-xl font-bold">In Stock: {p.quantityInStock}</h5>
+                        <h5 className="text-2xl font-bold">Price {p.buyPrice}$</h5>
                     </div>
                 )}
             </div>
