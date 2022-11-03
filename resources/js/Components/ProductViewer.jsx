@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from '@inertiajs/inertia-react';
+
+import ProductViewNavBar from "./ProductViewNavBar";
+
 import '../../css/product.css';
+
 const type_filter = [
     {name: "Classic Cars", selected: false},
     {name: "Motorcycles", selected: false},
@@ -15,11 +19,12 @@ const price_filter = [{name: "By PRICE", selected: false},
 // {name: "scale", selected: false},
 ];  // ใส่่อย่างอื่นเพิ่มได้อีก ,scale ? year
 
-export default function ProductViewer({products, searchValue}) {
+export default function ProductViewer({auth, products, showNavbarMenu}) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(99999);
     const [type_filters, setType_filters] = useState(type_filter);
     const [usePrice, setusePrice] = useState(price_filter);
+    const [searchValue, setSearchValue] = useState("");
 
     function handleFilter(filter) {
         setusePrice(usePrice.map(f => {
@@ -106,9 +111,9 @@ export default function ProductViewer({products, searchValue}) {
             return (<><div className="py-4">    
                 <h4>PRICE RANGE</h4>            
                 <div className="flex flex-row justify-evenly">
-                <input className="w-1/2 px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                <input className="px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
                 <>   :   </>      
-                <input className="w-1/2 px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+                <input className="px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
                     
                 </div>           
                 </div>
@@ -120,6 +125,19 @@ export default function ProductViewer({products, searchValue}) {
  
     return (
         <>
+        <div
+            className="mx-auto sticky top-0 bg-white z-50 border-b-4 border-black"
+        >
+            <div className="max-w-6xl m-auto">
+                <ProductViewNavBar
+                    auth={auth}
+                    searchOnChange={(e) => {
+                        setSearchValue(e.target.value);
+                    }}
+                    showNavbarMenu={showNavbarMenu}
+                />
+            </div>
+        </div>
         <div className="bg-black flex px-8 flex-col lg:flex-row justify-items-center">
         <div class="w-1/4 h-screen sticky top-24" aria-label="Sidebar">
             {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
@@ -161,7 +179,7 @@ export default function ProductViewer({products, searchValue}) {
                     .filter(p => checkFilter(p))
                     .map(p =>
 
-                    <div className="p-4 bg-white" key={p.productCode}>
+                    <div className="p-4 bg-white h-min" key={p.productCode}>
                         <h4 className="text-2xl">{p.productName} </h4>
                         <h4>{p.productLine}: {catalog_icon(p.productLine)}</h4>
                          

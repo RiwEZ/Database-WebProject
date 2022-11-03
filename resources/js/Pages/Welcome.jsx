@@ -1,21 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, Head } from "@inertiajs/inertia-react";
-import SearchBar from "@/Components/SearchBar";
 import ProductViewer from "@/Components/ProductViewer";
 import UserDropdown from "@/Components/UserDropdown";
-import ProductViewNavBar from "@/Components/ProductViewNavBar";
 
 export default function Welcome(props) {
-    const [searchValue, setSearchValue] = useState("");
-    const [showProductNavBar, setShowProductNavBar] = useState(false);
+    const [showNavbarMenu, setShowNavbarMenu] = useState(false);
 
     const bannerRef = useRef(null);
 
     const handleBannerScroll = (e) => {
         if (bannerRef.current.getBoundingClientRect().bottom <= 0) {
-            setShowProductNavBar(true);
+            setShowNavbarMenu(true);
         } else {
-            setShowProductNavBar(false);
+            setShowNavbarMenu(false);
         }
     };
 
@@ -31,10 +28,10 @@ export default function Welcome(props) {
         <>
             <Head title="Welcome" />
             <div
-                className="banner bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat"
+                className="banner bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat flex max-w-6xl m-auto"
                 ref={bannerRef}
             >
-                <div className="mx-auto max-w-6xl">
+                <div className="w-full">
                     <div className="flex justify-between">
                         <div className="p-4">
                             <h1 className="text-3xl font-bold">
@@ -73,7 +70,7 @@ export default function Welcome(props) {
                             )}
                         </div>
                     </div>
-                    <div className="">
+                    <div className="h-full">
                         <h1 className="text-6xl font-bold leading-normal p-4 mb-16 text-black white-outline-text">
                             HIGHLY DETAILED
                             <br />
@@ -82,30 +79,12 @@ export default function Welcome(props) {
                             MODELS
                         </h1>
                     </div>
-                    <div>
-                        <SearchBar
-                            onChange={(e) => {
-                                setSearchValue(e.target.value);
-                            }}
-                        />
-                    </div>
                 </div>
-            </div>
-            <div
-                className="mx-auto sticky top-0 bg-white z-50 border-b-4 border-black"
-                style={{ visibility: showProductNavBar ? "visible" : "hidden" }}
-            >
-                <ProductViewNavBar
-                    auth={props.auth}
-                    searchOnChange={(e) => {
-                        setSearchValue(e.target.value);
-                    }}
-                />
             </div>
             <ProductViewer
                 auth={props.auth}
                 products={props.products}
-                searchValue={searchValue}
+                showNavbarMenu={showNavbarMenu}
             />
         </>
     );
