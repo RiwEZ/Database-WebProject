@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from '@inertiajs/inertia-react';
 
 import ProductViewNavBar from "./ProductViewNavBar";
+import ProductModal from "./ProductModal";
 
 import '../../css/product.css';
 
@@ -25,6 +25,8 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
     const [type_filters, setType_filters] = useState(type_filter);
     const [usePrice, setusePrice] = useState(price_filter);
     const [searchValue, setSearchValue] = useState("");
+    
+    const [modal, setModal] = useState();
 
     function handleFilter(filter) {
         setusePrice(usePrice.map(f => {
@@ -97,11 +99,19 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
      
         // return "";
     }
+
+    function handleCardClick(product) {
+        setModal(<ProductModal product={product} handleClose={handleCloseModal}/>)
+    }
+
+    function handleCloseModal() {
+        setModal();
+    }
  
     return (
         <>
         <div
-            className="mx-auto sticky top-0 bg-white z-50 border-b-4 border-black"
+            className="mx-auto sticky top-0 bg-white z-10 border-b-4 border-black"
         >
             <div className="max-w-6xl m-auto">
                 <ProductViewNavBar
@@ -153,7 +163,8 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                 {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
                     .map(p =>
-                    <div className="transition ease-in-out p-6 bg-white h-min hover:scale-110" key={p.productCode}>
+                    <div className="transition ease-in-out p-6 bg-white h-min hover:scale-110 cursor-pointer" key={p.productCode}
+                            onClick={() => handleCardClick(p)} >
                         {/* picture here */}
                         <div className="flex justify-between">
                             <h4 className="text-2xl font-bold mr-0.5">{p.productName} </h4>
@@ -168,6 +179,7 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                     </div>
                 )}
             </div>
+            {modal}
         </div>
         </>
     )
