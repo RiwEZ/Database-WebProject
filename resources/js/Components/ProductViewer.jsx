@@ -189,7 +189,7 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                         <h5 className="font-bold">In Stock: {p.quantityInStock}</h5>
                         <div className="flex justify-between">
                             <h5 className="font-bold">Price {p.buyPrice}$</h5>
-                            <Link href={`/add-to-cart/${p.productCode}`} className="btn border border-black">ADD TO CART</Link>
+                            <Link href={`/add-to-cart/${p.productCode}`} className="btn border border-black font-bold p-1 hover:bg-black hover:text-white transition ease-in-out duration-150">ADD TO CART</Link>
                         </div>
                     </div>
                 )}
