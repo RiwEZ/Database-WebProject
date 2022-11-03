@@ -84,11 +84,11 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
         
         // if (usePrice[0].selected) {
             return (<><div className="py-4">    
-                <h4>PRICE RANGE</h4>            
+                <h4 className="font-bold">PRICE RANGE</h4>            
                 <div className="flex flex-row justify-evenly">
-                <input className="px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
-                <>   :   </>      
-                <input className="px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
+                <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
+                <span className="px-1">   -   </span>      
+                <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
                     
                 </div>           
                 </div>
@@ -114,7 +114,7 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
             </div>
         </div>
         <div className="bg-black flex px-8 flex-col lg:flex-row justify-items-center">
-        <div className="w-1/4 h-screen sticky top-24" aria-label="Sidebar">
+        <div className="w-1/4 h-screen sticky top-16" aria-label="Sidebar">
             {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
             <div className="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
                 <h3 className="text-2xl font-bold">FILTER</h3>
@@ -133,7 +133,7 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                         )}
                 </div> */}
                 <div>
-                    <h4>PRODUCT TYPE</h4>
+                    <h4 className="font-bold">PRODUCT TYPE</h4>
                     <ul>
                         {type_filters && type_filters.map((typefilter ,  i) =>
                             <li key={i} >
