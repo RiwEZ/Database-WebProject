@@ -29,7 +29,7 @@ export default function ProductModal({ product, handleClose }) {
         if (!loadingAddToCart) {
             btn = (
                 <button
-                    className="btn p-2 border border-white bg-white font-bold text-black text-xl
+                    className="btn p-2 border border-white border-2 bg-white font-bold text-black text-xl
                                     hover:bg-black hover:text-white transition ease-in-out duration-150"
                     onClick={handleAddToCart}
                 >
