@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 
 export default function ProductModal({ product, handleClose }) {
     const {
@@ -17,10 +18,19 @@ export default function ProductModal({ product, handleClose }) {
     function handleAddToCart() {
         setLoadAddToCart(true);
 
-        // this should be post
-        Inertia.post(`/add-to-cart/${productCode}`);
-        // promise here bla bla to change button
-        // when done setLoadAddToCart(false)
+        axios
+            .post(`/add-to-cart/`, { productCode })
+            .then(() => {
+                setLoadAddToCart(false);
+                // TODO: animation green button
+            })
+            .catch((err) => {
+                if (err.response) {
+                    if (err.response.status === 401) {
+                        window.location.href = "/login";
+                    }
+                }
+            });
     }
 
     function cartButton() {

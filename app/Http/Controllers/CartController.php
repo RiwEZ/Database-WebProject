@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -14,40 +16,25 @@ class CartController extends Controller
         return inertia('Cart', compact('cartBox'));
     }
 
-    public function addToCart($productCode)
+    public function addToCart(Request $request)
     {
-        $product = Product::findOrFail($productCode);
-        $cart = session()->get('cart');
-        if (!$cart) {
-           $cart = [
-            $product->productCode => [
-                'id' => $product->productCode,
-                'name' => $product->productName,
-                'scale' => $product->productScale,
-                'buyPrice' => $product->buyPrice,
-                'quantity' => 1,
-            ]
-            ];
-            session()->put('cart', $cart);
-            // return redirect()->route('cartView');
-        }
-        if (isset($cart[$productCode])) {
-            $cart[$productCode]['quantity']++;
-            session()->put('cart', $cart);
-            // return redirect()->route('cartView');
+        $productCode = $request->input('productCode');
+        $userId = Auth::id();
+        $userProduct = DB::table('user_cart')
+            ->where('userId', $userId)
+            ->where('productCode', $productCode);
+
+        if ($userProduct->exists()) {
+            $userProduct->increment('productQuantity');
+        } else {
+            DB::table('user_cart')->insert([
+                'userId' => $userId,
+                'productCode' => $productCode,
+                'productQuantity' => 1
+            ]);
         }
 
-        if (isset($cart)) {
-            $cart[$productCode] = [
-                'id' => $product->productCode,
-                'name' => $product->productName,
-                'scale' => $product->productScale,
-                'buyPrice' => $product->buyPrice,
-                'quantity' => 1,
-            ];
-            session()->put('cart', $cart);
-            // return redirect()->route('cartView');
-        }
+        return response()->json("OK");
     }
 
     public function removeCart($productCode)
