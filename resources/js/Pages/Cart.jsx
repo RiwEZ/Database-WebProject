@@ -56,6 +56,7 @@ export default function Cart({auth, cartBox, errors}) {
                                                                 </span>
                                                                 <Link
                                                                     href={`/remove-from-cart/${carts[key].id}`}
+                                                                    method="post"
                                                                     class="font-semibold hover:text-red-500 text-gray-500 text-md"
                                                                 >
                                                                     Remove

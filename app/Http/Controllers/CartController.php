@@ -29,12 +29,12 @@ class CartController extends Controller
             ]
             ];
             session()->put('cart', $cart);
-            return redirect()->route('cartView');
+            // return redirect()->route('cartView');
         }
         if (isset($cart[$productCode])) {
             $cart[$productCode]['quantity']++;
             session()->put('cart', $cart);
-            return redirect()->route('cartView');
+            // return redirect()->route('cartView');
         }
 
         if (isset($cart)) {
@@ -46,7 +46,7 @@ class CartController extends Controller
                 'quantity' => 1,
             ];
             session()->put('cart', $cart);
-            return redirect()->route('cartView');
+            // return redirect()->route('cartView');
         }
     }
 

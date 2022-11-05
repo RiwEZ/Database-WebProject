@@ -18,7 +18,7 @@ export default function ProductModal({ product, handleClose }) {
         setLoadAddToCart(true);
 
         // this should be post
-        Inertia.get(`/add-to-cart/${productCode}`);
+        Inertia.post(`/add-to-cart/${productCode}`);
         // promise here bla bla to change button
         // when done setLoadAddToCart(false)
     }

@@ -72,11 +72,11 @@ export default function Welcome(props) {
                     </div>
                     <div className="h-full">
                         <h1 className="text-6xl font-bold leading-normal p-4 mb-16 text-black white-outline-text">
-                            <span className="bg-white">HIGHLY DETAILED</span>
+                            <span className="white-outline-text">HIGHLY DETAILED</span>
                             <br/>
-                            <span className="bg-white">VEHICLE</span>
+                            <span className="white-outline-text">VEHICLE</span>
                             <br/>
-                            <span className="bg-white">MODELS</span>
+                            <span className="white-outline-text">MODELS</span>
                         </h1>
                     </div>
                 </div>
