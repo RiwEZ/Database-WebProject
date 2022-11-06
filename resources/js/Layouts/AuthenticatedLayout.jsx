@@ -11,13 +11,12 @@ export default function Authenticated({ auth, header, children }) {
 
     return (
         <>
-        <div  className="max-w-6xl m-auto">
-            <Navbar auth={auth} showCart={false} />
-        </div>
-        
-        <div className="min-h-screen bg-white">
-            <main>{children}</main>
-        </div>
+            <div className="min-h-screen bg-white">
+                <div className="max-w-6xl m-auto">
+                    <Navbar auth={auth} showCart={false} />
+                </div>
+                <div className='h-full'>{children}</div>
+            </div>
         </>
     );
 }
