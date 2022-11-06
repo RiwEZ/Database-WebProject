@@ -1,8 +1,7 @@
 import React from "react"
 import { Link } from "@inertiajs/inertia-react"
 import UserDropdown from "../UserDropdown"
-import { useEffect, useState } from "react"
-import { Inertia } from "@inertiajs/inertia"
+import { useState } from "react"
 import axios from "axios"
 
 export default function NavItem({ auth, showCart }) {
@@ -17,6 +16,14 @@ export default function NavItem({ auth, showCart }) {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    const cartHoverStyle = () => {
+        let base = "hidden bg-zinc-100 border border-2 drop-shadow p-4 absolute z-0 w-80 rounded-lg";
+        if (carts && carts.length > 0) {
+            return base + " group-hover:block";
+        }
+        return base;
     }
 
     return (
@@ -35,7 +42,7 @@ export default function NavItem({ auth, showCart }) {
                                 </Link>
 
                                 <div
-                                    className="hidden group-hover:block bg-zinc-100 border border-2 drop-shadow p-4 absolute z-0 w-80 rounded-lg">
+                                    className={cartHoverStyle()}>
                                     {carts && carts.map(c =>
                                         <div className="flex justify-between">
                                             <span>{c.productName}</span>
