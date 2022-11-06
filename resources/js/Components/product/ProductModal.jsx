@@ -13,6 +13,8 @@ export default function ProductModal({ product, handleClose }) {
         productDescription,
     } = product || {};
 
+    const prod_img = '/product_img/' + productCode + '.jpg';
+
     const [loadingAddToCart, setLoadAddToCart] = useState(false);
 
     function handleAddToCart() {
@@ -107,7 +109,8 @@ export default function ProductModal({ product, handleClose }) {
                                     </h4>
                                 </div>
                             </div>
-                            <p>{productDescription}</p>
+                            <img src={prod_img} alt="product image" className="w-96 pt-4"/>
+                            <p className="pt-4">{productDescription}</p>
                             <h5 className="text-xl font-bold mt-20">
                                 In Stock: {quantityInStock}
                             </h5>
