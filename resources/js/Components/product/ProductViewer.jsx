@@ -4,7 +4,6 @@ import ProductViewNavBar from "../nav/ProductViewNavBar";
 import ProductModal from "./ProductModal";
 import ProductPaginate from "./ProductPaginate";
 
-import '@/../css/product.css';
 
 const type_filter = [
     {name: "Classic Cars", selected: false},
@@ -14,11 +13,10 @@ const type_filter = [
     {name: "Trains", selected: false},
     {name: "Trucks and Buses", selected: false},
     {name: "Vintage Cars", selected: false},
-];   // เอาไว้แค่ ประเภทรถ
+];  
 
 const price_filter = [{name: "By PRICE", selected: false},
-// {name: "scale", selected: false},
-];  // ใส่่อย่างอื่นเพิ่มได้อีก ,scale ? year
+];  
 
 // chunk size must be > 0, if not we only return empty array
 function split_to_chunks(items, chunk_size) {
@@ -40,17 +38,6 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
     const [searchValue, setSearchValue] = useState("");
     const [modal, setModal] = useState();
 
-    function handleFilter(filter) {
-        setusePrice(usePrice.map(f => {
-            if (f.name === filter.name) {
-               return filter;
-            }
-            else {
-                return f;
-            }
-        }
-        ));
-    }
     function handleFiltertype(type) {
         setType_filters(type_filters.map(t => {
             if (t.name === type.name) {
@@ -74,22 +61,13 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
         }
 
         let price = product.buyPrice;
-        // if( !usePrice[0].selected){
-        //     if (  !type_selected   ) {
-        //         return true;
-        //     }
-        //     if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice ||  isNaN(minPrice)  )  && (price <= maxPrice ||  isNaN(maxPrice) ) ) {
-        //     return true;
-        //     }
-        // }
-        // if( usePrice[0].selected){
+      
             if (  !type_selected && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))   ) {
                 return true;
             }
             if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))) {
                 return true;
                 }
-        // }
 
         return false;
     }
