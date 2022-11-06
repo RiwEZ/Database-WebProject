@@ -42,10 +42,10 @@ export default function NavItem({ auth, showCart }) {
                             <div className="group relative inline-block" onMouseEnter={fetch_carts()}>
                                 <Link
                                     href="cart"
-                                    className="text-md text-gray-700 font-semibold px-4 flex"
+                                    className="text-md text-gray-700 font-semibold px-4 flex items-center"
                                 >
-                                    <span className="material-symbols-outlined align-middle pb-1 text-lg">shopping_cart</span>
-                                    CART
+                                    <span className="material-symbols-outlined align-middle text-lg">shopping_cart</span>
+                                    <p>CART</p>
                                 </Link>
 
                                 <div
@@ -61,10 +61,10 @@ export default function NavItem({ auth, showCart }) {
                         ) : (
                             <Link
                                 href="/"
-                                className="text-md text-gray-700 font-semibold px-4"
+                                className="text-md text-gray-700 font-semibold px-4 flex items-center"
                             >
                                 <span className="material-symbols-outlined align-middle pb-1 text-lg">home</span>
-                                Home
+                                <p className="mb-1">Home</p>
                             </Link>)
                         }
                         <UserDropdown username={auth.user.name} />

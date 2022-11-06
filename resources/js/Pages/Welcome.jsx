@@ -27,7 +27,7 @@ export default function Welcome({auth, products, carts}) {
         <>
             <Head title="LEGEND MODEL SHOP" />
             <div
-                className="banner bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat flex max-w-6xl m-auto"
+                className="banner lg:bg-[url('../img/rx7-1993.png')] bg-[center_-5rem] bg-no-repeat flex max-w-6xl m-auto"
                 ref={bannerRef}
             >
                 <div className="w-full">
