@@ -12,8 +12,7 @@ use App\Http\Controllers\Inertia;
 
 class CartController extends Controller
 {
-
-    public function cartView()
+    public function getUserCart()
     {
         $userId = Auth::id();
         $userCart = DB::table('user_cart')
@@ -23,6 +22,13 @@ class CartController extends Controller
             ->joinSub($userCart, 'user_cart', function ($join) {
                 $join->on('products.productCode', '=', 'user_cart.productCode');
             })->get();
+
+        return $allUserProducts;
+    }
+
+    public function cartView()
+    {
+        $allUserProducts = $this->getUserCart();
         return inertia('Cart', compact('allUserProducts'));
     }
 
