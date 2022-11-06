@@ -30,27 +30,34 @@ export default function Cart({ auth, allUserProducts, errors }) {
     const count_items = allUserProducts.length;
 
     const [showToast, setShowToast] = useState(false);
+    const [showErrorToast, setShowErrorToast] = useState(false);
+    const [entriesWithError, setEntriesWithError] = useState([]);
+
+    useEffect(() => {
+        setProductArray(allUserProducts);
+    });
 
     function removeFromCart(productCode) {
         Inertia.post(`/remove-from-cart/${productCode}`);
         setShowToast(true);
         setTimeout(() => {
             setShowToast(false);
-        }, 2000);
+        }, 4000);
     }
 
     const [productArray, setProductArray] = useState(allUserProducts);
 
-    useEffect(() => {
-        setProductArray(allUserProducts);
-    });
-
     function handleEditProductQuantity(productCode, newQuantity) {
-        if (newQuantity < 1) return;
+        if (newQuantity < 1) {
+            const newEntriesWithError = [...entriesWithError, productCode];
+            setEntriesWithError(newEntriesWithError);
+            return;
+        }
 
         axios
             .post("/edit-cart-quantity", { productCode, newQuantity })
             .then((response) => {
+                setEntriesWithError([]);
                 const newProductArray = [...productArray];
                 for (let i = 0; i < newProductArray.length; i++) {
                     if (
@@ -69,13 +76,19 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 if (err.response) {
                     if (err.response.status === 401) {
                         window.location.href = "/login";
-                    } else if (err.response.status === 422) {
-                        //// unprocessable entry
-                        //// that product quantity is more than in stock
                     }
-                } else {
-                    alert("Error adding this to cart. Please try again later.");
                 }
+
+                setShowErrorToast(true);
+                setTimeout(() => {
+                    setShowErrorToast(false);
+                }, 2000);
+
+                const newEntriesWithError = [
+                    ...entriesWithError,
+                    err.response.data.productCode,
+                ];
+                setEntriesWithError(newEntriesWithError);
             });
     }
 
@@ -88,6 +101,12 @@ export default function Cart({ auth, allUserProducts, errors }) {
             }
         }
         setProductArray(newProductArray);
+    }
+
+    function returnEntryBg(productCode) {
+        if (entriesWithError.find((p) => p === productCode))
+            return "bg-red-400";
+        else return "bg-white";
     }
 
     return (
@@ -104,7 +123,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 <Head title="Cart" />
                 {showToast && (
                     <div
-                        className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
                         id="static-example"
                         role="alert"
                         aria-live="assertive"
@@ -118,6 +137,27 @@ export default function Cart({ auth, allUserProducts, errors }) {
                         </div>
                         <div className="p-3 bg-black break-words text-white">
                             Item removed successfully.
+                        </div>
+                    </div>
+                )}
+
+                {showErrorToast && (
+                    <div
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
+                        id="static-example"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                        data-mdb-autohide="false"
+                    >
+                        <div className="bg-red-500 flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-white">
+                            <p className="font-bold text-white flex items-center">
+                                Error
+                            </p>
+                        </div>
+                        <div className="p-3 bg-red-500 break-words text-white">
+                            You order more than what in stock, or your order is
+                            invalid.
                         </div>
                     </div>
                 )}
@@ -151,19 +191,22 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                     <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/12"></h3>
                                 </div>
                                 {productArray.map((p) => (
-                                    <div class="flex items-center  border-4 border-white -mx-8 px-6 py-5">
+                                    <div
+                                        className={
+                                            "flex items-center  border-4 border-white -mx-8 px-6 py-5 " +
+                                            returnEntryBg(p.productCode)
+                                        }
+                                    >
                                         <div class="flex w-3/5">
                                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                                 <span class="font-bold text-xl">
                                                     {p.productName}
                                                 </span>
-                                                <div className="bg-white">
-                                                    <div className="py-3">
-                                                        <div className="bg-black h-min w-min px-3 py-1">
-                                                            <span className="text-lg font-bold text-white">
-                                                                {p.productScale}
-                                                            </span>
-                                                        </div>
+                                                <div className="py-3">
+                                                    <div className="bg-black h-min w-min px-3 py-1">
+                                                        <span className="text-lg font-bold text-white">
+                                                            {p.productScale}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -178,7 +221,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 }
                                             >
                                                 <svg
-                                                    class="fill-current text-gray-600 w-3"
+                                                    class="fill-current text-gray-600 w-4"
                                                     viewBox="0 0 448 512"
                                                 >
                                                     <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
@@ -213,7 +256,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 }
                                             >
                                                 <svg
-                                                    class="fill-current text-gray-600 w-3"
+                                                    class="fill-current text-gray-600 w-4"
                                                     viewBox="0 0 448 512"
                                                 >
                                                     <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
