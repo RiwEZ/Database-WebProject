@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Log;
 use App\Http\Controllers\Inertia;
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -68,7 +69,16 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $userId = Auth::id();
-        $userCart = DB::table('user_cart')->where('userId', $userId)->delete();
+        DB::transaction(function () {
+            $userCart = $this->getUserCart();
+            foreach ($userCart as $p) {
+                $matchedProduct = Product::where('productCode', $p->productCode)->first();
+                $matchedProduct->quantityInStock = $matchedProduct->quantityInStock - $p->productQuantity;
+                $matchedProduct->save();
+            }
+            $userId = Auth::id();
+            DB::table('user_cart')->where('userId', $userId)->delete();
+        });
+
     }
 }
