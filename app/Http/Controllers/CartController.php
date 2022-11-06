@@ -148,7 +148,7 @@ class CartController extends Controller
             $OrdersDD->orderNumber = $maxKey;
             $OrdersDD->productCode =  $p->productCode;
             $qty = $p->productQuantity;
-            if( $stockProduct->quantityInStock >  $qty) $qty = 0;
+            if( $stockProduct->quantityInStock <  $qty) $qty = $stockProduct->quantityInStock;
             $OrdersDD->quantityOrdered = $qty;
             $OrdersDD->priceEach = Product::where('productCode', $p->productCode)->select('MSRP')->first()->MSRP;
             $OrdersDD->orderLineNumber = $i;
