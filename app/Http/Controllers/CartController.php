@@ -69,7 +69,7 @@ class CartController extends Controller
             ->where('productCode', '=', $productCode)
             ->first()
             ->quantityInStock;
-        if ($newQuantity > $inStock) {
+        if ($newQuantity > $inStock || $newQuantity <= 0) {
             return response()->json(
                 ['productCode' => $productCode, 'newQuantity' => $newQuantity],
                 422
