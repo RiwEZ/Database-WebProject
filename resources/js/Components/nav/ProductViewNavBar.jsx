@@ -5,7 +5,7 @@ import NavItem from "../nav/NavItem";
 
 export default function ProductViewNavBar(props) {
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap">
             {props.showNavbarMenu && (
                 <div className="p-4 hidden lg:inline">
                     <h1 className="text-3xl font-bold whitespace-nowrap">
@@ -13,11 +13,11 @@ export default function ProductViewNavBar(props) {
                     </h1>
                 </div>
             )}
-            <div className="w-full">
+            <div className="flex-grow" style={{ minWidth: "320px" }}>
                 <SearchBar onChange={props.searchOnChange} />
             </div>
             {props.showNavbarMenu && (
-                <NavItem auth={props.auth} showCart={true}/>
+                <NavItem auth={props.auth} showCart={true} />
             )}
         </div>
     );
