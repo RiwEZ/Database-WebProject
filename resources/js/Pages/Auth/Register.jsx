@@ -36,7 +36,7 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
-            <div className='my-5'>
+            <div className=''>
                     <h1 className="text-white text-6xl font-bold text-center">REGISTER</h1>
                 </div>
                 <div>
@@ -46,7 +46,7 @@ export default function Register() {
                         type="text"
                         name="name"
                         value={data.name}
-                        className="mt-1 block w-full py-4"
+                        className="mt-1 block w-full py-2"
                         autoComplete="name"
                         isFocused={true}
                         handleChange={onHandleChange}
@@ -63,14 +63,14 @@ export default function Register() {
                         type="text"
                         name="address"
                         value={data.address}
-                        className="mt-1 block w-full py-4"
+                        className="mt-1 block w-full py-2"
                         autoComplete="address"
                         isFocused={true}
                         handleChange={onHandleChange}
                         required
                     />
 
-                    <InputError message={errors.name} className="mt-2" />
+                    <InputError message={errors.address} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -80,7 +80,7 @@ export default function Register() {
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full py-4"
+                        className="mt-1 block w-full py-2"
                         autoComplete="username"
                         handleChange={onHandleChange}
                         required
@@ -96,7 +96,7 @@ export default function Register() {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full py-4"
+                        className="mt-1 block w-full py-2"
                         autoComplete="new-password"
                         handleChange={onHandleChange}
                         required
@@ -112,7 +112,7 @@ export default function Register() {
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full py-4"
+                        className="mt-1 block w-full py-2"
                         handleChange={onHandleChange}
                         required
                     />
