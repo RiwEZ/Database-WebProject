@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import ProductViewNavBar from "./ProductViewNavBar";
+import ProductViewNavBar from "../nav/ProductViewNavBar";
 import ProductModal from "./ProductModal";
-import ProductCard from "./ProductCard";
 import ProductPaginate from "./ProductPaginate";
 
 import '@/../css/product.css';
@@ -33,7 +32,7 @@ function split_to_chunks(items, chunk_size) {
     return result;
 }
 
-export default function ProductViewer({auth, products, showNavbarMenu}) {
+export default function ProductViewer({auth, products, showNavbarMenu, handleCardClick}) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(99999);
     const [type_filters, setType_filters] = useState(type_filter);
@@ -95,23 +94,6 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
         return false;
     }
 
-    function range_PRICE() {
-        // if (usePrice[0].selected) {
-            return (<><div className="py-4">
-                <h4 className="font-bold">PRICE RANGE</h4>
-                <div className="flex flex-row justify-evenly">
-                <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
-                <span className="px-1">   -   </span>
-                <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
-
-                </div>
-                </div>
-            </>)
-        // }
-
-        // return "";
-    }
-
     function handleCardClick(product) {
         setModal(<ProductModal product={product} handleClose={handleCloseModal}/>)
     }
@@ -149,24 +131,30 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
             </div>
         </div>
         <div className="bg-black lg:flex px-8 justify-items-center">
-            <div className="pt-10 lg:p-0 lg:w-1/3 lg:sticky lg:top-16" aria-label="Sidebar">
+            <div className="pt-10 lg:p-0 lg:w-1/3" aria-label="Sidebar">
                 {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
-                <div className="overflow-y-auto py-4 px-6 bg-white lg:m-10">
+                <div className="overflow-y-auto py-4 px-6 bg-white lg:m-10 lg:w-80 lg:sticky lg:top-32">
                     <h3 className="text-2xl font-bold">FILTER</h3>
-                    {/* <div>
-                    {usePrice && usePrice.map(P =>
-                                <li>
-                                    <input
-                                        type="checkbox"
-                                        checked={P.selected}
-                                        onChange={e => {handleFilter({...P,selected: e.target.checked})}}
-                                    ></input>
-                                    <label className="ml-2">{P.name.toUpperCase()}</label>
-                             */}
-                                    {range_PRICE()}
-                                {/* </li>
-                            )}
-                    </div> */}
+                    <h4 className="font-bold">PRICE RANGE</h4>
+                        <div className="flex flex-row justify-evenly">
+                            <input
+                                className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm
+                                    border-1 shadow outline-none focus:outline-none focus:ring w-full"
+                                placeholder="min"
+                                type="number"
+                                min="0"
+                                onChange={e => setMinPrice(parseFloat(e.target.value))}>
+                            </input>
+                            <span className="px-1">   -   </span>
+                            <input
+                                className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1
+                                    shadow outline-none focus:outline-none focus:ring w-full"
+                                placeholder="max"
+                                type="number"
+                                min="0"
+                                onChange={e => setMaxPrice(parseFloat(e.target.value))}>
+                            </input>
+                        </div>
                     <div>
                         <h4 className="font-bold">PRODUCT TYPE</h4>
                         <ul>

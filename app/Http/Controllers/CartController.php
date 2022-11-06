@@ -7,13 +7,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Log;
+use App\Http\Controllers\Inertia;
 
 class CartController extends Controller
 {
+    public function getUserCart()
+    {
+        $userId = Auth::id();
+        $userCart = DB::table('user_cart')
+            ->where('userId', $userId);
+
+        $allUserProducts = DB::table('products')
+            ->joinSub($userCart, 'user_cart', function ($join) {
+                $join->on('products.productCode', '=', 'user_cart.productCode');
+            })->get();
+
+        return $allUserProducts;
+    }
+
     public function cartView()
     {
-        $cartBox = session()->get('cart');
-        return inertia('Cart', compact('cartBox'));
+        $allUserProducts = $this->getUserCart();
+        return inertia('Cart', compact('allUserProducts'));
     }
 
     public function addToCart(Request $request)
@@ -39,11 +55,20 @@ class CartController extends Controller
 
     public function removeCart($productCode)
     {
-        $cart = Session::get('cart');
-        if (isset($cart[$productCode])) {
-            unset($cart[$productCode]);
-            session()->put('cart', $cart);
-            return redirect()->route('cartView');
+        $userId = Auth::id();
+        $userProduct = DB::table('user_cart')
+            ->where('userId', $userId)
+            ->where('productCode', $productCode);
+
+        if ($userProduct->exists()) {
+            $userProduct->delete();
         }
+        return redirect()->route('cartView');
+    }
+
+    public function checkout()
+    {
+        $userId = Auth::id();
+        $userCart = DB::table('user_cart')->where('userId', $userId)->delete();
     }
 }

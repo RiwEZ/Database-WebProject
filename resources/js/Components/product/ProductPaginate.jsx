@@ -21,13 +21,13 @@ export default function ProductPaginate({productsChunk, handleCardClick}) {
 
     return (
         <>
-            <div className="my-10">
+            <div className="mt-10">
                 <div className="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 mx-10 mb-10">
                     {productsChunk[currChunk] && productsChunk[currChunk].map(p =>
                         <ProductCard product={p} onClick={handleCardClick} key={p.productCode}/>
                     )}
                 </div>
-                <div className="text-white text-center text-1xl md:text-2xl md:space-x-5">
+                <div className="text-white text-center text-1xl md:text-2xl md:space-x-5 pb-10">
                     {productsChunk.map((_, idx) =>
                         <button
                             key={idx}

@@ -32,16 +32,16 @@ export default function Guest({ children }) {
                 </div>
                 <div className="py-16 px-24">
                     <h1 className="text-5xl lg:text-7xl font-bold leading-normal">
-                        DISCOVER
+                        <span className="bg-white">DISCOVER</span>
                         <br />
-                        FANTASTIC
+                        <span className="bg-white">FANTASTIC</span>
                         <br />
-                        MODELS
+                        <span className="bg-white">MODELS</span>
                     </h1>
                 </div>
             </div>
             <div className="flex-initial bg-black h-full justify-items-center lg:w-1/3">
-                <div className="bg-black p-10 sm:p-20 w-full h-full">
+                <div className="bg-black p-10 sm:p-20 w-full">
                     {children}
                 </div>
             </div>

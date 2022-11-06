@@ -36,7 +36,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/cart', [CartController::class, 'cartView'])->middleware(['auth', 'verified'])->name('cartView');
+Route::get('/usercart', [CartController::class, 'getUserCart'])->middleware(['auth', 'verified'])->name('getUserCart');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('addToCart');
-Route::get('/remove-from-cart/{productCode}', [CartController::class, 'removeCart'])->middleware(['auth', 'verified'])->name('removeCart');
+Route::post('/checkout', [CartController::class, 'checkout'])->middleware(['auth', 'verified'])->name('checkout');
+Route::post('/remove-from-cart/{productCode}', [CartController::class, 'removeCart'])->middleware(['auth', 'verified'])->name('removeCart');
 
 require __DIR__.'/auth.php';
