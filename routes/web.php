@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Models\orders;
+use App\Http\Controllers\OrderController;
+use App\Models\Orders;
+use App\Models\OrdersDetail;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'orders' => Orders::all(),
+        'ordersDetail' => OrderController::getall_detail()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
