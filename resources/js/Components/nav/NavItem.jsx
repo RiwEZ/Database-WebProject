@@ -19,7 +19,7 @@ export default function NavItem({ auth, showCart }) {
     }
 
     const cartHoverStyle = () => {
-        let base = "hidden bg-zinc-100 border border-2 drop-shadow p-4 absolute z-0 w-80 rounded-lg";
+        let base = "hidden bg-zinc-100 border border-2 drop-shadow p-4 absolute z-0 w-80";
         if (carts && carts.length > 0) {
             return base + " group-hover:block";
         }
@@ -45,7 +45,7 @@ export default function NavItem({ auth, showCart }) {
                                     className="text-md text-gray-700 font-semibold px-4 flex items-center"
                                 >
                                     {carts 
-                                        ? carts.length > 0 && <p className="mr-1">{carts.length}</p> 
+                                        ? carts.length > 0 && <p className="mr-1 bg-black text-white w-7 text-center rounded">{carts.length}</p> 
                                         : <></>}
                                     <span className="material-symbols-outlined align-middle text-lg">shopping_cart</span>
                                     <p>CART</p>
