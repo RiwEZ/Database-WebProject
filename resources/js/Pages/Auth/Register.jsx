@@ -9,6 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/inertia-react';
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
+        address: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -47,6 +48,23 @@ export default function Register() {
                         value={data.name}
                         className="mt-1 block w-full py-4"
                         autoComplete="name"
+                        isFocused={true}
+                        handleChange={onHandleChange}
+                        required
+                    />
+
+                    <InputError message={errors.name} className="mt-2" />
+                </div>
+                
+                <div>
+                    <InputLabel forInput="address" value="ADDRESS" className="text-white text-xl py-2 font-semibold"/>
+
+                    <TextInput
+                        type="text"
+                        name="address"
+                        value={data.address}
+                        className="mt-1 block w-full py-4"
+                        autoComplete="address"
                         isFocused={true}
                         handleChange={onHandleChange}
                         required
