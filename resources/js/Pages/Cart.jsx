@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link} from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 
 function sumPrice(allUserProducts) {
@@ -17,8 +17,14 @@ export default function Cart({ auth, allUserProducts, errors }) {
 
     const count_items = allUserProducts.length;
 
+    const [showToast, setShowToast] = useState(false);
+
     function removeFromCart(productCode) {
         Inertia.post(`/remove-from-cart/${productCode}`);
+        setShowToast(true);
+        setTimeout(() => {
+            setShowToast(false);
+        }, 2000);
     }
 
     return (
@@ -33,6 +39,17 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 }
             >
                 <Head title="Cart" />
+                {showToast && (
+                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+                        <div class="bg-black flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-white">
+                            <p class="font-bold text-white flex items-center">
+                                Remove</p>
+                        </div>
+                        <div class="p-3 bg-black break-words text-white">
+                            Item removed successfully.
+                        </div>
+                    </div>
+            )}
 
                 <div class="bg-white pb-16">
                     <div class="max-w-7xl m-auto">
