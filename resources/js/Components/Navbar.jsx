@@ -21,14 +21,14 @@ export default function Navbar(props) {
                         href="cart"
                         className="text-md text-gray-700 font-semibold px-4"
                     >
-                        <span class="material-symbols-outlined align-middle  pb-1 text-lg">shopping_cart</span>
+                        <span className="material-symbols-outlined align-middle pb-1 text-lg">shopping_cart</span>
                         CART
                     </Link>):(
                     <Link
                         href="/"
                         className="text-md text-gray-700 font-semibold px-4"
                     >
-                        <span class="material-symbols-outlined align-middle  pb-1 text-lg">home</span>
+                        <span className="material-symbols-outlined align-middle  pb-1 text-lg">home</span>
                         Home
                     </Link>)}
                     <div className="pt-0.5">

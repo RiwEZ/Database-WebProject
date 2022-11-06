@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import UserDropdown from "@/Components/UserDropdown";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 export default function ProductViewNavBar(props) {
     return (

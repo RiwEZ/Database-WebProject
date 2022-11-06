@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
         'orders' => Orders::all(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/cart', [CartController::class, 'cartView'])->middleware(['auth', 'verified'])->name('cartView');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('addToCart');
 Route::get('/remove-from-cart/{productCode}', [CartController::class, 'removeCart'])->middleware(['auth', 'verified'])->name('removeCart');

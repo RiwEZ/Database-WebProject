@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, Head } from "@inertiajs/inertia-react";
-import ProductViewer from "@/Components/ProductViewer";
+import ProductViewer from "@/Components/product/ProductViewer";
 
 import Navbar from "@/Components/Navbar";
 
-export default function Welcome(props) {
+export default function Welcome({auth, products}) {
     const [showNavbarMenu, setShowNavbarMenu] = useState(false);
-
     const bannerRef = useRef(null);
 
     const handleBannerScroll = (e) => {
@@ -34,9 +33,9 @@ export default function Welcome(props) {
             >
                 <div className="w-full">
                     <Navbar
-                        auth={props.auth}
+                        auth={auth}
                         showCart={true}
-                    /> 
+                    />
                     <div className="h-full">
                         <h1 className="text-6xl font-bold leading-normal p-4 mb-16 text-black white-outline-text">
                             <span className="white-outline-text">HIGHLY DETAILED</span>
@@ -49,8 +48,8 @@ export default function Welcome(props) {
                 </div>
             </div>
             <ProductViewer
-                auth={props.auth}
-                products={props.products}
+                auth={auth}
+                products={products}
                 showNavbarMenu={showNavbarMenu}
             />
         </>
