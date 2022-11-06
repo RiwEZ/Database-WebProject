@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import ProductViewNavBar from "./ProductViewNavBar";
+import ProductViewNavBar from "../ProductViewNavBar";
 import ProductModal from "./ProductModal";
+import ProductCard from "./ProductCard";
 
-import '../../css/product.css';
+import '@/../css/product.css';
 
 const type_filter = [
     {name: "Classic Cars", selected: false},
@@ -19,13 +20,24 @@ const price_filter = [{name: "By PRICE", selected: false},
 // {name: "scale", selected: false},
 ];  // ใส่่อย่างอื่นเพิ่มได้อีก ,scale ? year
 
+// chunk size must be > 0, if not we only return empty array
+function split_to_chunks(items, chunk_size) {
+    if (chunk_size <= 0) {
+        return [];
+    }
+    let result = [];
+    for (let i = 0; i < items.length; i += chunk_size) {
+        result.push(items.slice(i, i + chunk_size));
+    }
+    return result;
+}
+
 export default function ProductViewer({auth, products, showNavbarMenu}) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(99999);
     const [type_filters, setType_filters] = useState(type_filter);
     const [usePrice, setusePrice] = useState(price_filter);
     const [searchValue, setSearchValue] = useState("");
-    
     const [modal, setModal] = useState();
 
     function handleFilter(filter) {
@@ -55,12 +67,12 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
     function checkFilter(product) {
         let type_selected = false;
         for (let i = 0; i < type_filters.length; i++) {
-            if (type_filters[i].selected) {    
+            if (type_filters[i].selected) {
                 type_selected = true;
                 break;
             }
         }
-         
+
         let price = product.buyPrice;
         // if( !usePrice[0].selected){
         //     if (  !type_selected   ) {
@@ -78,25 +90,24 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                 return true;
                 }
         // }
-         
+
         return false;
     }
-    
+
     function range_PRICE() {
-        
         // if (usePrice[0].selected) {
-            return (<><div className="py-4">    
-                <h4 className="font-bold">PRICE RANGE</h4>            
+            return (<><div className="py-4">
+                <h4 className="font-bold">PRICE RANGE</h4>
                 <div className="flex flex-row justify-evenly">
                 <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full" placeholder="min"  type="number" min="0"  onChange={e => setMinPrice(parseFloat(e.target.value))}></input>
-                <span className="px-1">   -   </span>      
+                <span className="px-1">   -   </span>
                 <input className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm border-1 shadow outline-none focus:outline-none focus:ring w-full"  placeholder="max" type="number" min="0"   onChange={e => setMaxPrice(parseFloat(e.target.value))}></input>
-                    
-                </div>           
+
+                </div>
                 </div>
             </>)
         // }
-     
+
         // return "";
     }
 
@@ -107,7 +118,7 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
     function handleCloseModal() {
         setModal();
     }
- 
+
     return (
         <>
         <div
@@ -160,23 +171,13 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
             </div>
             </div>
             <div className="w-2/3 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
-                {products &&  products.filter(p => p.productName.toLowerCase().includes(searchValue.toLowerCase()))
+                {products &&  products.filter(p =>
+                    p.productName
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase()))
                     .filter(p => checkFilter(p))
                     .map(p =>
-                    <div className="transition ease-in-out p-6 bg-white h-min hover:scale-110 cursor-pointer" key={p.productCode}
-                            onClick={() => handleCardClick(p)} >
-                        {/* picture here */}
-                        <div className="flex justify-between">
-                            <h4 className="text-2xl font-bold mr-0.5">{p.productName} </h4>
-                            <div className="bg-black h-min">
-                                <h4 className="text-white font-bold text-xl p-1">{p.productScale}</h4>
-                            </div>
-                        </div>
-                        <h4 className="pt-2 text-xl font-bold">{p.productLine}</h4>
-                        <br />
-                        <h5 className="text-xl font-bold">In Stock: {p.quantityInStock}</h5>
-                        <h5 className="text-2xl font-bold">Price {p.buyPrice}$</h5>
-                    </div>
+                        <ProductCard product={p} onClick={handleCardClick} key={p.productCode}/>
                 )}
             </div>
             {modal}
