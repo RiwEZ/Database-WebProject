@@ -33,18 +33,23 @@ export default function Dashboard(props) {
     function get_detail(Number) {
 
         return <>
-
-            {ordersdetail.filter(list => {
-                return list.orderNumber == Number
-            }).map(advance =>
-
-                <li className="flex flex-row justify-evenly">
-                    product {advance.productName} , Qyt: {advance.quantityOrdered} , priceEach: {advance.priceEach}
-                </li>
-
-            )
-            }
-
+            <div className="pt-4 max-w-2xl">
+                <table>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantities</th>
+                        <th>Unit Price</th>
+                    </tr>
+                    {ordersdetail.filter(list => {
+                        return list.orderNumber == Number
+                    }).map(advance =>
+                        <tr>
+                            <td className="px-5"> {advance.productName} </td> <td className="px-5">{advance.quantityOrdered}</td> <td className="px-5">{advance.priceEach}</td>
+                        </tr>
+                    )
+                    }
+                </table>
+            </div>
         </>
 
 
@@ -55,42 +60,34 @@ export default function Dashboard(props) {
         return (<>
 
             <div className="w-5/6 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-10 my-10 mx-8 ">
-                {uniq_fast(ordersdetail).map(orders => <>
+                {uniq_fast(ordersdetail).map(orders =>
+                    <>
+                        <div id="popup1" className="overlay pt-20 ">
 
-
-                    <div id="popup1" className="overlay">
-                        <div className="popup">
-                            <h2>OrderDetail</h2>
-                            <a className="close" href="#">&times;</a>
-                            <div className="content">
-                                {get_detail(orders.orderNumber)}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <a href="#popup1">
-
-                        <div className={"transition ease-in-out p-6 bg-white h-min hover:scale-110 cursor-pointer" + (orders.status === 'Shipped' ? " bg-green-500" : " bg-red-600")} >
-
-
-                            <div className="flex justify-between">
-                                <h4 className="text-l font-bold mr-0.5">orderNumber: {orders.orderNumber} </h4>
-                                <div className="bg-black h-min">
-                                    <h4 className="text-white font-bold text-xl p-1">Status: {orders.status}</h4>
-
+                            <div className="flex flex-col justify-center bg-white max-w-2xl m-auto py-5 px-5">
+                                <div className="flex flex-row justify-between">
+                                    <h2 className="px-6 pt-3 text-2xl font-bold">OrderDetail</h2>
+                                    <a className="close text-5xl text-right px-4 " href="#">&times;</a>
+                                </div>
+                                <div className="pb-10 m-auto">
+                                    {get_detail(orders.orderNumber)}
                                 </div>
                             </div>
-                            <h4 className="pt-2 text-xl font-bold">shippedDate: {orders.shippedDate}</h4>
-                            <h4 className="text-xl font-bold">orderDate: {orders.orderDate}</h4>
-
-
                         </div>
 
-
-                    </a>
-
-                </>
+                        <a href="#popup1">
+                            <div className={"transition ease-in-out p-6 bg-white h-min hover:scale-110 cursor-pointer" + (orders.status === 'Shipped' ? " bg-green-500" : " bg-red-600")} >
+                                <div className="flex justify-between">
+                                    <h4 className="text-sm font-semibold mr-0.5">Order Number: {orders.orderNumber} </h4>
+                                    <div className="bg-black h-min">
+                                        <h4 className="text-white font-bold text-xl p-1">{orders.status}</h4>
+                                    </div>
+                                </div>
+                                <h4 className="pt-2 text-lg font-bold">Shipped Date: {orders.shippedDate}</h4>
+                                <h4 className="text-lg font-bold">Order Date: {orders.orderDate}</h4>
+                            </div>
+                        </a>
+                    </>
 
                 )}
             </div>
@@ -108,7 +105,6 @@ export default function Dashboard(props) {
 
             <div className="py-12 flex place-content-center">
                 {adminDash()}
-
             </div>
 
         </AuthenticatedLayout>
