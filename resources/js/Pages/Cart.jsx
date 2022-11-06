@@ -1,20 +1,18 @@
-import React from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/inertia-react';
+import React, { useEffect } from "react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link } from "@inertiajs/inertia-react";
 
-function sumPrice(carts) {
+function sumPrice(allUserProducts) {
     let sum = 0;
-    {
-        carts && Object.keys(carts).map((key, index) => {
-            sum += parseFloat(carts[key].buyPrice) * parseFloat(carts[key].quantity);
-        })
+
+    for(const p in allUserProducts) {
+        sum += p.productQuantity * p.MSRP;
     }
 
     return sum.toFixed(2);
 }
 
-export default function Cart({ auth, cartBox, errors }) {
-    const carts = cartBox;
+export default function Cart({ auth, allUserProducts, errors }) {
     return (
         <div>
             <AuthenticatedLayout
@@ -53,18 +51,18 @@ export default function Cart({ auth, cartBox, errors }) {
 
                                         </h3>
                                     </div>
-                                    {carts && Object.keys(carts).map((key, index) =>
+                                    {allUserProducts.map((p) => (
                                         <div class="flex items-center  border-4 border-white -mx-8 px-6 py-5" key={index}>
                                             <div class="flex w-3/5">
                                                 <div class="flex flex-col justify-between ml-4 flex-grow">
                                                     <span class="font-bold text-xl">
-                                                        {carts[key].name}
+                                                        {p.productName}
                                                     </span>
                                                     <div className='bg-white'>
                                                         <div className='py-3'>
                                                             <div className='bg-black h-min w-min px-3 py-1'>
                                                                 <span class="text-lg font-bold text-white">
-                                                                    {carts[key].scale}
+                                                                    {p.productScale}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -85,7 +83,7 @@ export default function Cart({ auth, cartBox, errors }) {
                                                 <input
                                                     class="mx-2 border text-center w-20"
                                                     type="text"
-                                                    value={carts[key].quantity}
+                                                    value={p.productQuantity}
                                                 />
 
 
@@ -97,14 +95,14 @@ export default function Cart({ auth, cartBox, errors }) {
                                                 </svg>
                                             </div>
                                             <span class="text-center w-1/5 font-semibold text-sm">
-                                                $ {carts[key].buyPrice}
+                                                $ {p.MSRP}
                                             </span>
                                             <span class="text-center w-1/5 font-semibold text-sm">
-                                                $ {parseFloat(carts[key].buyPrice) * parseFloat(carts[key].quantity)}
+                                                $ {parseFloat(p.MSRP) * parseFloat(p.productQuantity)}
                                             </span>
 
-                                            <Link
-                                                href={`/remove-from-cart/${carts[key].id}`}
+                                            {/* <Link
+                                                href={`/remove-from-cart/${allUserProducts[key].id}`}
                                                 method="post"
                                                 class="text-center w-1/12 font-semibold hover:text-red-400 text-red-500 text-md"
                                             >
@@ -112,9 +110,9 @@ export default function Cart({ auth, cartBox, errors }) {
                                                     delete
                                                 </span>
 
-                                            </Link>
+                                            </Link> */}
                                         </div>
-                                    )}
+                                    ))}
                                     <a
                                         href="/"
                                         class="flex font-semibold text-l mt-10"
@@ -135,20 +133,20 @@ export default function Cart({ auth, cartBox, errors }) {
                                         Order Summary
                                     </h1>
                                     <div className="flex flex-col justify-between">
-                                        {carts && Object.keys(carts).map((key, index) =>
+                                        {allUserProducts && Object.keys(allUserProducts).map((key, index) =>
                                             <div class="flex justify-between mt-10 mb-5">
 
                                                 <span class="font-semibold text-sm uppercase">
-                                                    {carts[key].name}
+                                                    {allUserProducts[key].name}
                                                 </span>
 
-                                                <span class="font-semibold text-sm">{parseFloat(carts[key].buyPrice) * parseFloat(carts[key].quantity)}</span>
+                                                <span class="font-semibold text-sm">{parseFloat(allUserProducts[key].buyPrice) * parseFloat(allUserProducts[key].quantity)}</span>
                                             </div>
                                         )}
                                         <div class="border-t mt-8 justify-items-end">
                                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                                 <span>Total cost</span>
-                                                <span>$ {sumPrice(carts)}</span>
+                                                <span>$ {sumPrice(allUserProducts)}</span>
                                             </div>
                                             <button class="border-4 border-black  bg-black font-semibold text-white hover:text-black hover:bg-white py-2 text-sm  uppercase w-full">
                                                 Checkout
@@ -168,7 +166,7 @@ export default function Cart({ auth, cartBox, errors }) {
             <div className='bg-black py-5 w-full fixed bottom-0'>
                 <div className='flex justify-between max-w-6xl m-auto font-bold text-white text-2xl align-middle px-5'>
                     <div className=' pt-1'>
-                        TOTAL ${sumPrice(carts)}
+                        TOTAL ${sumPrice(allUserProducts)}
                     </div>
                     <div className=''>
                         <button class="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2">

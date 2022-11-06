@@ -10,10 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    // public function cartView()
+    // {
+    //     $cartBox = session()->get('cart');
+    //     return inertia('Cart', compact('cartBox'));
+    // }
+
     public function cartView()
     {
-        $cartBox = session()->get('cart');
-        return inertia('Cart', compact('cartBox'));
+        $userId = Auth::id();
+        $userCart = DB::table('user_cart')
+            ->where('userId', $userId);
+
+        $allUserProducts = DB::table('products')
+            ->joinSub($userCart, 'user_cart', function ($join) {
+                $join->on('products.productCode', '=', 'user_cart.productCode');
+            })->get();
+
+        return inertia('Cart', compact('allUserProducts'));
     }
 
     public function addToCart(Request $request)
