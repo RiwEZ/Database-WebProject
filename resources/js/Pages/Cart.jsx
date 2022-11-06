@@ -15,22 +15,15 @@ function sumPrice(productsInCart) {
     return sum.toFixed(2);
 }
 
-function handleCheckout() {
-    axios
-        .post(`/checkout/`)
-        .then(() => {
-            window.location.reload(false);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
+const errorToastShowDuration = 4000;
 
 export default function Cart({ auth, allUserProducts, errors }) {
     const count_items = allUserProducts.length;
 
     const [showToast, setShowToast] = useState(false);
     const [showErrorToast, setShowErrorToast] = useState(false);
+
+    const [productArray, setProductArray] = useState(allUserProducts);
     const [entriesWithError, setEntriesWithError] = useState([]);
 
     useEffect(() => {
@@ -42,22 +35,56 @@ export default function Cart({ auth, allUserProducts, errors }) {
         setShowToast(true);
         setTimeout(() => {
             setShowToast(false);
-        }, 4000);
+        }, errorToastShowDuration);
     }
 
-    const [productArray, setProductArray] = useState(allUserProducts);
+    function handleCheckout() {
+        const quantityUpdates = [];
+        productArray.forEach((p) => {
+            quantityUpdates.push(
+                sendEditProductQuantity(p.productCode, p.productQuantity)
+            );
+        });
 
-    function handleEditProductQuantity(productCode, newQuantity) {
+        Promise.all(quantityUpdates)
+            .then(() => {
+                axios
+                    .post(`/checkout/`)
+                    .then(() => {
+                        window.location.reload(false);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                setShowErrorToast(true);
+                setTimeout(() => {
+                    setShowErrorToast(false);
+                }, errorToastShowDuration);
+            });
+    }
+
+    function sendEditProductQuantity(productCode, newQuantity) {
         if (newQuantity < 1) {
             const newEntriesWithError = [...entriesWithError, productCode];
             setEntriesWithError(newEntriesWithError);
-            return;
+            setShowErrorToast(true);
+            setTimeout(() => {
+                setShowErrorToast(false);
+            }, errorToastShowDuration);
+
+            return Promise.reject();
         }
 
-        axios
+        return axios
             .post("/edit-cart-quantity", { productCode, newQuantity })
             .then((response) => {
-                setEntriesWithError([]);
+                const newEntriesWithError = entriesWithError.filter(
+                    (e) => e != productCode
+                );
+                setEntriesWithError(newEntriesWithError);
+
                 const newProductArray = [...productArray];
                 for (let i = 0; i < newProductArray.length; i++) {
                     if (
@@ -71,6 +98,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 console.log(newProductArray);
                 console.log(response);
                 setProductArray(newProductArray);
+                return Promise.resolve();
             })
             .catch((err) => {
                 if (err.response) {
@@ -82,13 +110,15 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 setShowErrorToast(true);
                 setTimeout(() => {
                     setShowErrorToast(false);
-                }, 2000);
+                }, errorToastShowDuration);
 
                 const newEntriesWithError = [
                     ...entriesWithError,
                     err.response.data.productCode,
                 ];
                 setEntriesWithError(newEntriesWithError);
+
+                return Promise.reject(err);
             });
     }
 
@@ -123,7 +153,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                 <Head title="Cart" />
                 {showToast && (
                     <div
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
+                        className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
                         id="static-example"
                         role="alert"
                         aria-live="assertive"
@@ -143,7 +173,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
 
                 {showErrorToast && (
                     <div
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
+                        className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
                         id="static-example"
                         role="alert"
                         aria-live="assertive"
@@ -213,12 +243,15 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                         </div>
                                         <div class="flex justify-center w-1/5">
                                             <button
-                                                onClick={() =>
-                                                    handleEditProductQuantity(
-                                                        p.productCode,
-                                                        p.productQuantity - 1
-                                                    )
-                                                }
+                                                onClick={() => {
+                                                    if (p.productQuantity > 1) {
+                                                        sendEditProductQuantity(
+                                                            p.productCode,
+                                                            p.productQuantity -
+                                                                1
+                                                        );
+                                                    }
+                                                }}
                                             >
                                                 <svg
                                                     class="fill-current text-gray-600 w-4"
@@ -240,7 +273,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                     )
                                                 }
                                                 onBlur={(e) =>
-                                                    handleEditProductQuantity(
+                                                    sendEditProductQuantity(
                                                         p.productCode,
                                                         e.target.value
                                                     )
@@ -249,7 +282,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
 
                                             <button
                                                 onClick={() =>
-                                                    handleEditProductQuantity(
+                                                    sendEditProductQuantity(
                                                         p.productCode,
                                                         p.productQuantity + 1
                                                     )
