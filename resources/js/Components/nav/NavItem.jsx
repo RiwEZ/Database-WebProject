@@ -30,7 +30,14 @@ export default function NavItem({ auth, showCart }) {
         <>
             <div className="p-4 mt-2 inline-block">
                 {auth.user ? (
-                    <div className="flex flex-row">
+                    <div className="flex flex-row items-start">
+
+                        {auth.user.isAdmin ? (<Link
+                            href="dashboard"
+                            className="text-md text-gray-700 font-semibold px-4 flex"
+                        >
+                            Dashboard
+                        </Link>) : (<></>)}
                         {showCart ? (
                             <div className="group relative inline-block" onMouseEnter={fetch_carts()}>
                                 <Link
@@ -51,7 +58,7 @@ export default function NavItem({ auth, showCart }) {
                                     )}
                                 </div>
                             </div>
-                            ) : (
+                        ) : (
                             <Link
                                 href="/"
                                 className="text-md text-gray-700 font-semibold px-4"
