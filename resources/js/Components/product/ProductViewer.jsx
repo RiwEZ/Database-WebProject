@@ -6,17 +6,17 @@ import ProductPaginate from "./ProductPaginate";
 
 
 const type_filter = [
-    {name: "Classic Cars", selected: false},
-    {name: "Motorcycles", selected: false},
-    {name: "Planes", selected: false},
-    {name: "Ships", selected: false},
-    {name: "Trains", selected: false},
-    {name: "Trucks and Buses", selected: false},
-    {name: "Vintage Cars", selected: false},
-];  
+    { name: "Classic Cars", selected: false },
+    { name: "Motorcycles", selected: false },
+    { name: "Planes", selected: false },
+    { name: "Ships", selected: false },
+    { name: "Trains", selected: false },
+    { name: "Trucks and Buses", selected: false },
+    { name: "Vintage Cars", selected: false },
+];
 
-const price_filter = [{name: "By PRICE", selected: false},
-];  
+const price_filter = [{ name: "By PRICE", selected: false },
+];
 
 // chunk size must be > 0, if not we only return empty array
 function split_to_chunks(items, chunk_size) {
@@ -30,7 +30,7 @@ function split_to_chunks(items, chunk_size) {
     return result;
 }
 
-export default function ProductViewer({auth, products, showNavbarMenu, handleCardClick}) {
+export default function ProductViewer({ auth, products, showNavbarMenu, handleCardClick }) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(99999);
     const [type_filters, setType_filters] = useState(type_filter);
@@ -41,7 +41,7 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
     function handleFiltertype(type) {
         setType_filters(type_filters.map(t => {
             if (t.name === type.name) {
-               return type;
+                return type;
             }
             else {
                 return t;
@@ -61,19 +61,19 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
         }
 
         let price = product.buyPrice;
-      
-            if (  !type_selected && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))   ) {
-                return true;
-            }
-            if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice || isNaN(minPrice) )  && (price <= maxPrice ||  isNaN(maxPrice))) {
-                return true;
-                }
+
+        if (!type_selected && (price >= minPrice || isNaN(minPrice)) && (price <= maxPrice || isNaN(maxPrice))) {
+            return true;
+        }
+        if (type_filters.find(f => f.name === product.productLine && f.selected) && (price >= minPrice || isNaN(minPrice)) && (price <= maxPrice || isNaN(maxPrice))) {
+            return true;
+        }
 
         return false;
     }
 
     function handleCardClick(product) {
-        setModal(<ProductModal product={product} handleClose={handleCloseModal}/>)
+        setModal(<ProductModal product={product} handleClose={handleCloseModal} />)
     }
 
     function handleCloseModal() {
@@ -86,8 +86,8 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
         let products_filterd = products
             .filter(p =>
                 p.productName
-                .toLowerCase()
-                .includes(searchValue.toLowerCase()))
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase()))
             .filter(p => checkFilter(p));
 
         setProductsChunk(split_to_chunks(products_filterd, chunk_size));
@@ -95,25 +95,25 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
 
     return (
         <>
-        <div
-            className="mx-auto sticky top-0 bg-white z-10 border-b-4 border-black"
-        >
-            <div className="max-w-6xl m-auto">
-                <ProductViewNavBar
-                    auth={auth}
-                    searchOnChange={(e) => {
-                        setSearchValue(e.target.value);
-                    }}
-                    showNavbarMenu={showNavbarMenu}
-                />
+            <div
+                className="mx-auto sticky top-0 bg-white z-10 border-b-4 border-black"
+            >
+                <div className="max-w-6xl m-auto">
+                    <ProductViewNavBar
+                        auth={auth}
+                        searchOnChange={(e) => {
+                            setSearchValue(e.target.value);
+                        }}
+                        showNavbarMenu={showNavbarMenu}
+                    />
+                </div>
             </div>
-        </div>
-        <div className="bg-black lg:flex px-8 justify-items-center">
-            <div className="pt-10 lg:p-0 lg:w-1/3" aria-label="Sidebar">
-                {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
-                <div className="overflow-y-auto py-4 px-6 bg-white lg:m-10 lg:w-80 lg:sticky lg:top-32">
-                    <h3 className="text-2xl font-bold">FILTER</h3>
-                    <h4 className="font-bold">PRICE RANGE</h4>
+            <div className="bg-black lg:flex px-8 justify-items-center">
+                <div className="pt-10 lg:p-0 lg:w-1/3" aria-label="Sidebar">
+                    {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
+                    <div className="overflow-y-auto py-4 px-6 bg-white lg:m-10 lg:w-80 lg:sticky lg:top-32">
+                        <h3 className="text-2xl font-bold">FILTER</h3>
+                        <h4 className="font-bold pt-4">PRICE RANGE</h4>
                         <div className="flex flex-row justify-evenly">
                             <input
                                 className="border-2 border-black px-2 py-1 text-slate-600 relative text-sm
@@ -133,26 +133,26 @@ export default function ProductViewer({auth, products, showNavbarMenu, handleCar
                                 onChange={e => setMaxPrice(parseFloat(e.target.value))}>
                             </input>
                         </div>
-                    <div>
-                        <h4 className="font-bold">PRODUCT TYPE</h4>
-                        <ul>
-                            {type_filters && type_filters.map((typefilter ,  i) =>
-                                <li key={i} >
-                                    <input
-                                        type="checkbox"
-                                        checked={typefilter.selected}
-                                        onChange={e => { handleFiltertype({ ...typefilter,selected: e.target.checked})}}
-                                    ></input>
-                                    <label className="ml-2">{typefilter.name.toUpperCase()}</label>
-                                </li>
-                            )}
-                        </ul>
+                        <div>
+                            <h4 className="font-bold pt-4">PRODUCT TYPE</h4>
+                            <ul>
+                                {type_filters && type_filters.map((typefilter, i) =>
+                                    <li key={i} >
+                                        <input
+                                            type="checkbox"
+                                            checked={typefilter.selected}
+                                            onChange={e => { handleFiltertype({ ...typefilter, selected: e.target.checked }) }}
+                                        ></input>
+                                        <label className="ml-2">{typefilter.name.toUpperCase()}</label>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <ProductPaginate productsChunk={productsChunk} handleCardClick={handleCardClick}></ProductPaginate>
+                {modal}
             </div>
-            <ProductPaginate productsChunk={productsChunk} handleCardClick={handleCardClick}></ProductPaginate>
-            {modal}
-        </div>
         </>
     )
 }

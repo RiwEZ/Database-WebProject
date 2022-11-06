@@ -19,7 +19,7 @@ export default function NavItem({ auth, showCart }) {
     }
 
     const cartHoverStyle = () => {
-        let base = "hidden bg-zinc-100 border border-2 drop-shadow p-4 absolute z-0 w-80";
+        let base = "hidden bg-zinc-100 border border-1 shadow-lg p-4 absolute z-0 w-80";
         if (carts && carts.length > 0) {
             return base + " group-hover:block";
         }

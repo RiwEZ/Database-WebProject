@@ -218,7 +218,6 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                     <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
                                         Total
                                     </h3>
-                                    <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/12"></h3>
                                 </div>
                                 {productArray.map((p) => (
                                     <div
@@ -241,7 +240,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex justify-center w-1/5">
+                                        <div class="flex justify-center w-1/5 pl-14">
                                             <button
                                                 onClick={() => {
                                                     if (p.productQuantity > 1) {
@@ -296,10 +295,10 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 </svg>
                                             </button>
                                         </div>
-                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                        <span className="text-center w-1/5 font-semibold text-sm pl-12">
                                             $ {p.MSRP}
                                         </span>
-                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                        <span className="text-center w-1/5 font-semibold text-sm pl-12">
                                             {p.productQuantity === ""
                                                 ? parseFloat(p.MSRP) *
                                                   parseFloat(0)
@@ -344,7 +343,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                     </div>
                     <div className="">
                         <button
-                            className="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2"
+                            className="border-4 border-white bg-white font-bold text-black hover:text-white hover:bg-black py-2 text-md  uppercase w-full px-2 transition ease-in-out duration-150"
                             onClick={handleCheckout}
                         >
                             Checkout
