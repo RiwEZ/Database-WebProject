@@ -32,11 +32,11 @@ export default function Guest({ children }) {
                 </div>
                 <div className="py-16 px-24">
                     <h1 className="text-5xl lg:text-7xl font-bold leading-normal">
-                        <span className="bg-white">DISCOVER</span>
+                        <span className="white-outline-text">DISCOVER</span>
                         <br />
-                        <span className="bg-white">FANTASTIC</span>
+                        <span className="white-outline-text">FANTASTIC</span>
                         <br />
-                        <span className="bg-white">MODELS</span>
+                        <span className="white-outline-text">MODELS</span>
                     </h1>
                 </div>
             </div>
