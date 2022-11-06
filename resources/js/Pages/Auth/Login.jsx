@@ -70,13 +70,13 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="block mt-4">
+                {/* <div className="block mt-4">
                     <label className="flex items-center">
                         <Checkbox name="remember" value={data.remember} handleChange={onHandleChange}/>
 
                         <span className="ml-2 text-sm font-semibold text-gray-500">REMEMBER ME</span>
                     </label>
-                </div>
+                </div> */}
 
                 {/* <div className='mt-4'>
                     <div className='flex items-center justify-center'>
@@ -91,7 +91,7 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div> */}
 
-                <div className="flex items-center justify-center mt-4">
+                <div className="flex items-center justify-center mt-8">
                     <PrimaryButton className="mt-6" processing={processing}>
                         Login
                     </PrimaryButton>
