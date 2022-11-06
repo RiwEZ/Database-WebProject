@@ -13,6 +13,9 @@ function sumPrice(allUserProducts) {
 }
 
 export default function Cart({ auth, allUserProducts, errors }) {
+
+    const count_items = allUserProducts.length;
+
     return (
         <div>
             <AuthenticatedLayout
@@ -39,7 +42,7 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                     </h1>
                                     {/* numbers of items */}
                                     <h2 class="font-semibold text-2xl">
-                                        1 Items
+                                        {count_items} Items
                                     </h2>
                                 </div>
                                 <div class="flex mt-10 mb-5">
