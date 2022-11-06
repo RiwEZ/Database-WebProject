@@ -65,4 +65,10 @@ class CartController extends Controller
         }
         return redirect()->route('cartView');
     }
+
+    public function checkout()
+    {
+        $userId = Auth::id();
+        $userCart = DB::table('user_cart')->where('userId', $userId)->delete();
+    }
 }

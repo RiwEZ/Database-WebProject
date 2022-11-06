@@ -13,6 +13,17 @@ function sumPrice(allUserProducts) {
     return sum.toFixed(2);
 }
 
+function handleCheckout() {
+    axios
+        .post(`/checkout/`)
+        .then(() => {window.location.reload(false);})
+        .catch((err) => {
+            console.log(err);
+        });
+    
+}
+
+
 export default function Cart({ auth, allUserProducts, errors }) {
 
     const count_items = allUserProducts.length;
@@ -160,7 +171,8 @@ export default function Cart({ auth, allUserProducts, errors }) {
                         TOTAL ${sumPrice(allUserProducts)}
                     </div>
                     <div className="">
-                        <button class="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2">
+                        <button class="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2"
+                                onClick={handleCheckout}>
                             Checkout
                         </button>
                     </div>
