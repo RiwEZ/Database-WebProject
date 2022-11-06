@@ -1,6 +1,7 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
 
 function sumPrice(allUserProducts) {
     let sum = 0.0;
@@ -15,6 +16,10 @@ function sumPrice(allUserProducts) {
 export default function Cart({ auth, allUserProducts, errors }) {
 
     const count_items = allUserProducts.length;
+
+    function removeFromCart(productCode) {
+        Inertia.post(`/remove-from-cart/${productCode}`);
+    }
 
     return (
         <div>
@@ -109,17 +114,11 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 parseFloat(p.productQuantity)
                                             ).toFixed(2)}
                                         </span>
-
-                                        {/* <Link
-                                                href={`/remove-from-cart/${allUserProducts[key].id}`}
-                                                method="post"
-                                                class="text-center w-1/12 font-semibold hover:text-red-400 text-red-500 text-md"
-                                            >
-                                                <span class="material-symbols-outlined align-middle">
-                                                    delete
-                                                </span>
-
-                                            </Link> */}
+                                        <button onClick={() => removeFromCart(p.productCode)} method="post">
+                                        <span class="material-symbols-outlined align-middle">
+                                            delete
+                                        </span>
+                                        </button>
                                     </div>
                                 ))}
                                 <a
