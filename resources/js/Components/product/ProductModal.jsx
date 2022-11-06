@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function ProductModal({ product, handleClose }) {
     const {
@@ -15,22 +16,30 @@ export default function ProductModal({ product, handleClose }) {
 
     const prod_img = '/product_img/' + productCode + '.jpg';
 
-    const [loadingAddToCart, setLoadAddToCart] = useState(false);
+    const successBtnDuration = 2000;
+    // idle, processing, success, goToCart
+    const [cartBtnState, setCartBtnState] = useState("idle");
 
     function handleAddToCart() {
-        setLoadAddToCart(true);
+        setCartBtnState("processing");
 
         axios
             .post(`/add-to-cart/`, { productCode })
             .then(() => {
-                setLoadAddToCart(false);
-                // TODO: animation green button
+                setCartBtnState("success");
+                setTimeout(() => {
+                    setCartBtnState("goToCart");
+                }, successBtnDuration);
             })
             .catch((err) => {
+                setCartBtnState("idle");
+
                 if (err.response) {
                     if (err.response.status === 401) {
                         window.location.href = "/login";
                     }
+                } else {
+                    alert("Error adding this to cart. Please try again later.");
                 }
             });
     }
@@ -38,38 +47,49 @@ export default function ProductModal({ product, handleClose }) {
     function cartButton() {
         let btn = <></>;
 
-        if (!loadingAddToCart) {
+        if (cartBtnState === "idle") {
             btn = (
                 <button
-                    className="btn p-2 border border-white border-2 bg-white font-bold text-black text-xl
-                                    hover:bg-black hover:text-white transition ease-in-out duration-150"
+                    className="btn p-2 border-white border-2 bg-white font-bold text-black text-xl
+                                    hover:bg-black hover:text-white transition ease-in-out duration-150 "
                     onClick={handleAddToCart}
                 >
-                    {loadingAddToCart ? (
-                        <>
-                            <span className="animate-spin material-symbols-outlined align-middle mr-2">
-                                rotate_right
-                            </span>
-                            Processing...
-                        </>
-                    ) : (
-                        <>
-                            <span className="material-symbols-outlined align-middle mr-2">
-                                shopping_cart
-                            </span>
-                            ADD TO CART
-                        </>
-                    )}
+                    <span className="material-symbols-outlined align-middle mr-2">
+                        shopping_cart
+                    </span>
+                    ADD TO CART
                 </button>
             );
-        } else {
+        } else if (cartBtnState === "processing") {
             btn = (
                 <div className="btn p-2 border border-white bg-white font-bold text-black text-xl cursor-progress">
                     <span className="animate-spin material-symbols-outlined align-middle mr-2">
                         rotate_right
                     </span>
-                    Processing...
+                    PROCESSING...
                 </div>
+            );
+        } else if (cartBtnState === "success") {
+            btn = (
+                <div className="btn p-2 border border-white bg-green-400 font-bold text-black text-xl">
+                    <span className="material-symbols-outlined align-middle mr-2">
+                        check_circle
+                    </span>
+                    SUCCESS
+                </div>
+            );
+        } else if (cartBtnState === "goToCart") {
+            btn = (
+                <Link
+                    className="btn p-2 border-white border-2 bg-white font-bold text-black text-xl
+                                    hover:bg-black hover:text-white transition ease-in-out duration-150 "
+                    href="/cart"
+                >
+                    <span className="material-symbols-outlined align-middle mr-2">
+                        shopping_cart
+                    </span>
+                    GO TO CART
+                </Link>
             );
         }
 
