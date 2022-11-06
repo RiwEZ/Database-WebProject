@@ -109,13 +109,16 @@ export default function ProductModal({ product, handleClose }) {
                                     </h4>
                                 </div>
                             </div>
-                            <img src={prod_img} alt="product image" className="w-96 pt-4"/>
+                            <div className="flex justify-center py-2">
+                                <img src={prod_img} alt="product image" className="w-96 pt-4" />
+                            </div>
+
                             <p className="pt-4">{productDescription}</p>
                             <h5 className="text-xl font-bold mt-20">
                                 In Stock: {quantityInStock}
                             </h5>
                             <div className="flex justify-between">
-                                <h5 className="text-2xl font-bold">
+                                <h5 className="text-2xl font-bold pt-2">
                                     Price {MSRP}$
                                 </h5>
                                 {cartButton()}
