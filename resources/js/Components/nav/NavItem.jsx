@@ -44,6 +44,9 @@ export default function NavItem({ auth, showCart }) {
                                     href="cart"
                                     className="text-md text-gray-700 font-semibold px-4 flex items-center"
                                 >
+                                    {carts 
+                                        ? carts.length > 0 && <p className="mr-1">{carts.length}</p> 
+                                        : <></>}
                                     <span className="material-symbols-outlined align-middle text-lg">shopping_cart</span>
                                     <p>CART</p>
                                 </Link>
