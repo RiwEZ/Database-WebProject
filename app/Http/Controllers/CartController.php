@@ -12,7 +12,7 @@ use App\Http\Controllers\Inertia;
 use App\Models\Product;
 use App\Models\Orders;
 use App\Models\Ordersdetail;
-
+Use \Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -103,14 +103,11 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $output = "WORK";
-        if (is_array($output))
-            $output = implode(',', $output);
-    
-        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 
-        
         DB::transaction(function () {
+            $time = Carbon::now();
+            
+
             $userCart = $this->getUserCart();
             foreach ($userCart as $p) {
                 $matchedProduct = Product::where('productCode', $p->productCode)->first();
@@ -129,8 +126,9 @@ class CartController extends Controller
 
             $Orders = new Orders;
             $Orders->orderNumber = $maxKey;
-            $Orders->orderDate = '2013-05-29';
-            $Orders->requiredDate = '2013-05-29';
+            $Orders->orderDate = $time->toDateString();
+            $Orders->requiredDate = $time->addDays(5)->toDateString();
+            $Orders->shippedDate = $time->addDays(7)->toDateString();
             $Orders->status = 'Unshipped';
             $Orders->customerNumber = $userId;
             $Orders->save();
