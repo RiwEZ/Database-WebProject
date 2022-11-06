@@ -35,6 +35,7 @@ export default function Dashboard(props) {
         return <>
             <div className="pt-4 max-w-2xl">
                 <table>
+                {Number}
                     <tr>
                         <th>Product Name</th>
                         <th>Quantities</th>
@@ -51,31 +52,29 @@ export default function Dashboard(props) {
                 </table>
             </div>
         </>
-
-
     }
-
 
     function adminDash() {
         return (<>
 
             <div className="w-5/6 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-10 my-10 mx-8 ">
+                
                 {uniq_fast(ordersdetail).map(orders =>
-                    <>
-                        <div id="popup1" className="overlay pt-20 ">
+                    <>{console.log(orders)}
+                        <div id={orders.orderNumber} className="overlay pt-20 ">
 
                             <div className="flex flex-col justify-center bg-white max-w-2xl m-auto py-5 px-5">
                                 <div className="flex flex-row justify-between">
                                     <h2 className="px-6 pt-3 text-2xl font-bold">OrderDetail</h2>
                                     <a className="close text-5xl text-right px-4 " href="#">&times;</a>
                                 </div>
-                                <div className="pb-10 m-auto">
+                                <div className="pb-10 m-auto" key={orders.orderNumber}>
                                     {get_detail(orders.orderNumber)}
                                 </div>
                             </div>
                         </div>
 
-                        <a href="#popup1">
+                        <a href={"#" + (orders.orderNumber)}>
                             <div className={"transition ease-in-out p-6 bg-white h-min hover:scale-110 cursor-pointer" + (orders.status === 'Shipped' ? " bg-green-500" : " bg-red-600")} >
                                 <div className="flex justify-between">
                                     <h4 className="text-sm font-semibold mr-0.5">Order Number: {orders.orderNumber} </h4>
