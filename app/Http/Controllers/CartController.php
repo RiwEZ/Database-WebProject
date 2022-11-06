@@ -54,6 +54,35 @@ class CartController extends Controller
         return response()->json("OK");
     }
 
+    public function editCartQuantity(Request $request)
+    {
+        $productCode = $request->input('productCode');
+        $newQuantity = $request->input('newQuantity');
+
+        $inStock = DB::table('products')
+            ->select('quantityInStock')
+            ->where('productCode', '=', $productCode)
+            ->first()
+            ->quantityInStock;
+        if ($newQuantity > $inStock) {
+            return response()->json(
+                ['productCode' => $productCode, 'newQuantity' => $newQuantity],
+                422
+            );
+        }
+
+        $userId = Auth::id();
+
+        $userProduct = DB::table('user_cart')
+            ->where('userId', $userId)
+            ->where('productCode', $productCode);
+
+        $userProduct->update(['productQuantity' => $newQuantity]);
+
+
+        return response()->json($userProduct->get());
+    }
+
     public function removeCart($productCode)
     {
         $userId = Auth::id();
@@ -79,6 +108,5 @@ class CartController extends Controller
             $userId = Auth::id();
             DB::table('user_cart')->where('userId', $userId)->delete();
         });
-
     }
 }

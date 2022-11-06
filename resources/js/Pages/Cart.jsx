@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link} from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 
-function sumPrice(allUserProducts) {
+function sumPrice(productsInCart) {
     let sum = 0.0;
 
-    allUserProducts.forEach((p) => {
-        sum += parseFloat(p.productQuantity) * parseFloat(p.MSRP);
+    productsInCart.forEach((p) => {
+        let q = p.productQuantity;
+        if (q === "") q = 0;
+        sum += parseFloat(q) * parseFloat(p.MSRP);
     });
 
     return sum.toFixed(2);
@@ -16,16 +18,15 @@ function sumPrice(allUserProducts) {
 function handleCheckout() {
     axios
         .post(`/checkout/`)
-        .then(() => {window.location.reload(false);})
+        .then(() => {
+            window.location.reload(false);
+        })
         .catch((err) => {
             console.log(err);
         });
-
 }
 
-
 export default function Cart({ auth, allUserProducts, errors }) {
-
     const count_items = allUserProducts.length;
 
     const [showToast, setShowToast] = useState(false);
@@ -36,6 +37,57 @@ export default function Cart({ auth, allUserProducts, errors }) {
         setTimeout(() => {
             setShowToast(false);
         }, 2000);
+    }
+
+    const [productArray, setProductArray] = useState(allUserProducts);
+
+    useEffect(() => {
+        setProductArray(allUserProducts);
+    });
+
+    function handleEditProductQuantity(productCode, newQuantity) {
+        if (newQuantity < 1) return;
+
+        axios
+            .post("/edit-cart-quantity", { productCode, newQuantity })
+            .then((response) => {
+                const newProductArray = [...productArray];
+                for (let i = 0; i < newProductArray.length; i++) {
+                    if (
+                        newProductArray[i].productCode ===
+                        response.data[0].productCode
+                    ) {
+                        newProductArray[i].productQuantity =
+                            response.data[0].productQuantity;
+                    }
+                }
+                console.log(newProductArray);
+                console.log(response);
+                setProductArray(newProductArray);
+            })
+            .catch((err) => {
+                if (err.response) {
+                    if (err.response.status === 401) {
+                        window.location.href = "/login";
+                    } else if (err.response.status === 422) {
+                        //// unprocessable entry
+                        //// that product quantity is more than in stock
+                    }
+                } else {
+                    alert("Error adding this to cart. Please try again later.");
+                }
+            });
+    }
+
+    function handleInputQuantityChange(productCode, productQuantity) {
+        const newProductArray = [...productArray];
+
+        for (let i = 0; i < newProductArray.length; i++) {
+            if (newProductArray[i].productCode === productCode) {
+                newProductArray[i].productQuantity = productQuantity;
+            }
+        }
+        setProductArray(newProductArray);
     }
 
     return (
@@ -51,23 +103,29 @@ export default function Cart({ auth, allUserProducts, errors }) {
             >
                 <Head title="Cart" />
                 {showToast && (
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3" id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-mdb-autohide="false">
+                    <div
+                        className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding block mb-3"
+                        id="static-example"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                        data-mdb-autohide="false"
+                    >
                         <div className="bg-black flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-white">
                             <p className="font-bold text-white flex items-center">
-                                Remove</p>
+                                Remove
+                            </p>
                         </div>
                         <div className="p-3 bg-black break-words text-white">
                             Item removed successfully.
                         </div>
                     </div>
-            )}
+                )}
 
                 <div className="bg-white pb-16">
                     <div className="max-w-7xl m-auto">
                         <div className="flex border-4 border-black shadow-md my-10 mx-auto overflow-x-auto">
-                            <div
-                                className="w-full bg-white px-10 py-10"
-                            >
+                            <div className="w-full bg-white px-10 py-10">
                                 <div className="flex justify-between border-b pb-8">
                                     <h1 className="font-semibold text-2xl">
                                         Shopping Cart
@@ -92,11 +150,11 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                     </h3>
                                     <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/12"></h3>
                                 </div>
-                                {allUserProducts.map((p) => (
-                                    <div className="flex items-center  border-4 border-white -mx-8 px-6 py-5">
-                                        <div className="flex w-3/5">
-                                            <div className="flex flex-col justify-between ml-4 flex-grow">
-                                                <span className="font-bold text-xl">
+                                {productArray.map((p) => (
+                                    <div class="flex items-center  border-4 border-white -mx-8 px-6 py-5">
+                                        <div class="flex w-3/5">
+                                            <div class="flex flex-col justify-between ml-4 flex-grow">
+                                                <span class="font-bold text-xl">
                                                     {p.productName}
                                                 </span>
                                                 <div className="bg-white">
@@ -110,41 +168,81 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex justify-center w-1/5">
-                                            <svg
-                                                className="fill-current text-gray-600 w-3"
-                                                viewBox="0 0 448 512"
+                                        <div class="flex justify-center w-1/5">
+                                            <button
+                                                onClick={() =>
+                                                    handleEditProductQuantity(
+                                                        p.productCode,
+                                                        p.productQuantity - 1
+                                                    )
+                                                }
                                             >
-                                                <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                                            </svg>
+                                                <svg
+                                                    class="fill-current text-gray-600 w-3"
+                                                    viewBox="0 0 448 512"
+                                                >
+                                                    <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                                </svg>
+                                            </button>
 
                                             <input
-                                                className="mx-2 border text-center w-20"
-                                                type="text"
+                                                class="mx-2 border text-center w-20"
+                                                type="number"
                                                 value={p.productQuantity}
+                                                min="1"
+                                                onChange={(e) =>
+                                                    handleInputQuantityChange(
+                                                        p.productCode,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                onBlur={(e) =>
+                                                    handleEditProductQuantity(
+                                                        p.productCode,
+                                                        e.target.value
+                                                    )
+                                                }
                                             />
 
-                                            <svg
-                                                className="fill-current text-gray-600 w-3"
-                                                viewBox="0 0 448 512"
+                                            <button
+                                                onClick={() =>
+                                                    handleEditProductQuantity(
+                                                        p.productCode,
+                                                        p.productQuantity + 1
+                                                    )
+                                                }
                                             >
-                                                <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                                            </svg>
+                                                <svg
+                                                    class="fill-current text-gray-600 w-3"
+                                                    viewBox="0 0 448 512"
+                                                >
+                                                    <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                                </svg>
+                                            </button>
                                         </div>
                                         <span className="text-center w-1/5 font-semibold text-sm">
                                             $ {p.MSRP}
                                         </span>
                                         <span className="text-center w-1/5 font-semibold text-sm">
-                                            ${" "}
-                                            {(
-                                                parseFloat(p.MSRP) *
-                                                parseFloat(p.productQuantity)
-                                            ).toFixed(2)}
+                                            {p.productQuantity === ""
+                                                ? parseFloat(p.MSRP) *
+                                                  parseFloat(0)
+                                                : (
+                                                      parseFloat(p.MSRP) *
+                                                      parseFloat(
+                                                          p.productQuantity
+                                                      )
+                                                  ).toFixed(2)}
                                         </span>
-                                        <button onClick={() => removeFromCart(p.productCode)} method="post">
-                                        <span className="material-symbols-outlined align-middle">
-                                            delete
-                                        </span>
+                                        <button
+                                            onClick={() =>
+                                                removeFromCart(p.productCode)
+                                            }
+                                            method="post"
+                                        >
+                                            <span class="material-symbols-outlined align-middle">
+                                                delete
+                                            </span>
                                         </button>
                                     </div>
                                 ))}
@@ -170,8 +268,10 @@ export default function Cart({ auth, allUserProducts, errors }) {
                         TOTAL ${sumPrice(allUserProducts)}
                     </div>
                     <div className="">
-                        <button className="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2"
-                                onClick={handleCheckout}>
+                        <button
+                            className="border-4 border-white  bg-white font-semibold text-black hover:text-white hover:bg-black py-2 text-sm  uppercase w-full px-2"
+                            onClick={handleCheckout}
+                        >
                             Checkout
                         </button>
                     </div>

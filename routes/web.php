@@ -40,5 +40,6 @@ Route::get('/usercart', [CartController::class, 'getUserCart'])->middleware(['au
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('addToCart');
 Route::post('/checkout', [CartController::class, 'checkout'])->middleware(['auth', 'verified'])->name('checkout');
 Route::post('/remove-from-cart/{productCode}', [CartController::class, 'removeCart'])->middleware(['auth', 'verified'])->name('removeCart');
+Route::post('/edit-cart-quantity', [CartController::class, 'editCartQuantity'])->middleware(['auth', 'verified'])->name('editCartQuantity');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
