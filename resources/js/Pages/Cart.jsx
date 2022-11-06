@@ -289,17 +289,16 @@ export default function Cart({ auth, allUserProducts, errors }) {
                                         </button>
                                     </div>
                                 ))}
-                                <a
+
+                                <Link
                                     href="/"
-                                    className="flex font-semibold text-l mt-10"
+                                    className="flex font-semibold text-l mt-10 w-max"
                                 >
-                                    <Link href="/">
-                                        <span className="material-symbols-outlined align-middle px-2">
-                                            keyboard_backspace
-                                        </span>
-                                        Continue shopping
-                                    </Link>
-                                </a>
+                                    <span className="material-symbols-outlined align-middle px-2">
+                                        keyboard_backspace
+                                    </span>
+                                    Continue shopping
+                                </Link>
                             </div>
                         </div>
                     </div>

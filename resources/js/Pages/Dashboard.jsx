@@ -38,7 +38,7 @@ export default function Dashboard(props) {
                 {Number}
                     <tr>
                         <th>Product Name</th>
-                        <th>Quantities</th>
+                        <th>Quantity</th>
                         <th>Unit Price</th>
                     </tr>
                     {ordersdetail.filter(list => {
