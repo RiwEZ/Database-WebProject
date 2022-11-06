@@ -114,7 +114,8 @@ class CartController extends Controller
             $userCart = $this->getUserCart();
             foreach ($userCart as $p) {
                 $matchedProduct = Product::where('productCode', $p->productCode)->first();
-                $matchedProduct->quantityInStock = $matchedProduct->quantityInStock - $p->productQuantity;
+                if( $p->productQuantity <= 0) $qty = 0;
+                $matchedProduct->quantityInStock = $matchedProduct->quantityInStock - $qty;
                 $matchedProduct->save();
             }
             $userId = Auth::id();
@@ -144,7 +145,8 @@ class CartController extends Controller
             $OrdersDD = new Ordersdetail();
             $OrdersDD->orderNumber = $maxKey;
             $OrdersDD->productCode =  $p->productCode;
-            $OrdersDD->quantityOrdered = $p->productQuantity;
+            if( $p->productQuantity <= 0) $qty = 0;
+            $OrdersDD->quantityOrdered = $qty;
             $OrdersDD->priceEach = Product::where('productCode', $p->productCode)->select('MSRP')->first()->MSRP;
             $OrdersDD->orderLineNumber = $i;
             $i = $i + 1;
