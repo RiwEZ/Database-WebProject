@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, Head } from "@inertiajs/inertia-react";
 import ProductViewer from "@/Components/product/ProductViewer";
+import Navbar from "@/Components/nav/Navbar";
 
-import Navbar from "@/Components/Navbar";
-
-export default function Welcome({auth, products}) {
+export default function Welcome({auth, products, carts}) {
     const [showNavbarMenu, setShowNavbarMenu] = useState(false);
     const bannerRef = useRef(null);
 
@@ -38,7 +37,7 @@ export default function Welcome({auth, products}) {
                     />
                     <div className="h-full">
                         <h1 className="text-6xl font-bold leading-normal p-4 mb-16 text-black white-outline-text">
-                            <span className="white-outline-text">HIGHLY DETAILED</span>
+                            <span className="white-outline-text"> HIGHLY DETAILED</span>
                             <br/>
                             <span className="white-outline-text">VEHICLE</span>
                             <br/>
