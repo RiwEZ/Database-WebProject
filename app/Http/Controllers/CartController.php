@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Log;
 use App\Http\Controllers\Inertia;
 use App\Models\Product;
+use App\Models\Orders;
+use App\Models\Ordersdetail;
+
 
 class CartController extends Controller
 {
+  
+
     public function getUserCart()
     {
         $userId = Auth::id();
@@ -69,6 +74,13 @@ class CartController extends Controller
 
     public function checkout()
     {
+        $output = "WORK";
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+
+        
         DB::transaction(function () {
             $userCart = $this->getUserCart();
             foreach ($userCart as $p) {
@@ -78,6 +90,39 @@ class CartController extends Controller
             }
             $userId = Auth::id();
             DB::table('user_cart')->where('userId', $userId)->delete();
+
+            // INSERT INTO orders AUTO_INCREMENT( orderDate, requiredDate, status,customerNumber )
+            // VALUES (2003-05-29 , 2003-05-29 , Unshipped, userId);
+
+            $maxKey = Orders::max('orderNumber')+1;
+
+            $Orders = new Orders;
+            $Orders->orderNumber = $maxKey;
+            $Orders->orderDate = '2013-05-29';
+            $Orders->requiredDate = '2013-05-29';
+            $Orders->status = 'Unshipped';
+            $Orders->customerNumber = $userId;
+            $Orders->save();
+
+            // orderNumber 
+            // productCode 
+            // quantityOrdered
+            // priceEach
+            // orderLineNumber
+            
+            $i = 1;
+          foreach ($userCart as $p) {
+            $OrdersDD = new Ordersdetail();
+            $OrdersDD->orderNumber = $maxKey;
+            $OrdersDD->productCode =  $p->productCode;
+            $OrdersDD->quantityOrdered = $p->productQuantity;
+            $OrdersDD->priceEach = Product::where('productCode', $p->productCode)->select('MSRP')->first()->MSRP;
+            $OrdersDD->orderLineNumber = $i;
+            $i = $i + 1;
+            $OrdersDD->save();
+            }
+            
+    
         });
 
     }
