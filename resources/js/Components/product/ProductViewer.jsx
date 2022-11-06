@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import ProductViewNavBar from "../ProductViewNavBar";
+import ProductViewNavBar from "./ProductViewNavBar";
 import ProductModal from "./ProductModal";
 import ProductCard from "./ProductCard";
+import ProductPaginate from "./ProductPaginate";
 
 import '@/../css/product.css';
 
@@ -119,6 +120,19 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
         setModal();
     }
 
+    const chunk_size = 15;
+    const [productsChunk, setProductsChunk] = useState(split_to_chunks(products, chunk_size));
+    useEffect(() => {
+        let products_filterd = products
+            .filter(p =>
+                p.productName
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()))
+            .filter(p => checkFilter(p));
+
+        setProductsChunk(split_to_chunks(products_filterd, chunk_size));
+    }, [minPrice, maxPrice, searchValue, type_filters]);
+
     return (
         <>
         <div
@@ -134,52 +148,43 @@ export default function ProductViewer({auth, products, showNavbarMenu}) {
                 />
             </div>
         </div>
-        <div className="bg-black flex px-8 flex-col lg:flex-row justify-items-center">
-        <div className="w-1/4 h-screen sticky top-16" aria-label="Sidebar">
-            {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
-            <div className="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
-                <h3 className="text-2xl font-bold">FILTER</h3>
-                {/* <div>
-                {usePrice && usePrice.map(P =>
-                            <li>
-                                <input
-                                    type="checkbox"
-                                    checked={P.selected}
-                                    onChange={e => {handleFilter({...P,selected: e.target.checked})}}
-                                ></input>
-                                <label className="ml-2">{P.name.toUpperCase()}</label>
-                         */}
-                                {range_PRICE()}
-                            {/* </li>
-                        )}
-                </div> */}
-                <div>
-                    <h4 className="font-bold">PRODUCT TYPE</h4>
-                    <ul>
-                        {type_filters && type_filters.map((typefilter ,  i) =>
-                            <li key={i} >
-                                <input
-                                    type="checkbox"
-                                    checked={typefilter.selected}
-                                    onChange={e => { handleFiltertype({ ...typefilter,selected: e.target.checked})}}
-                                ></input>
-                                <label className="ml-2">{typefilter.name.toUpperCase()}</label>
-                            </li>
-                        )}
-                    </ul>
+        <div className="bg-black flex flex-auto px-8 flex-col lg:flex-row justify-items-center">
+            <div className="w-1/3 h-screen sticky top-16" aria-label="Sidebar">
+                {/* <div className="   bottom-0 left-0   bg-white m-auto lg:m-10 p-4 w-1/4 min-w-max h-80 "> */}
+                <div className="overflow-y-auto py-4 px-6 bg-white m-auto lg:m-10">
+                    <h3 className="text-2xl font-bold">FILTER</h3>
+                    {/* <div>
+                    {usePrice && usePrice.map(P =>
+                                <li>
+                                    <input
+                                        type="checkbox"
+                                        checked={P.selected}
+                                        onChange={e => {handleFilter({...P,selected: e.target.checked})}}
+                                    ></input>
+                                    <label className="ml-2">{P.name.toUpperCase()}</label>
+                             */}
+                                    {range_PRICE()}
+                                {/* </li>
+                            )}
+                    </div> */}
+                    <div>
+                        <h4 className="font-bold">PRODUCT TYPE</h4>
+                        <ul>
+                            {type_filters && type_filters.map((typefilter ,  i) =>
+                                <li key={i} >
+                                    <input
+                                        type="checkbox"
+                                        checked={typefilter.selected}
+                                        onChange={e => { handleFiltertype({ ...typefilter,selected: e.target.checked})}}
+                                    ></input>
+                                    <label className="ml-2">{typefilter.name.toUpperCase()}</label>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div className="w-2/3 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-10 my-10">
-                {products &&  products.filter(p =>
-                    p.productName
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase()))
-                    .filter(p => checkFilter(p))
-                    .map(p =>
-                        <ProductCard product={p} onClick={handleCardClick} key={p.productCode}/>
-                )}
-            </div>
+            <ProductPaginate productsChunk={productsChunk} handleCardClick={handleCardClick}></ProductPaginate>
             {modal}
         </div>
         </>
