@@ -41,7 +41,7 @@ export default function Guest({ children }) {
                 </div>
             </div>
             <div className="flex-initial bg-black h-full justify-items-center lg:w-1/3">
-                <div className="bg-black p-10 sm:p-20 w-full h-full">
+                <div className="bg-black p-10 sm:p-20 w-full">
                     {children}
                 </div>
             </div>
