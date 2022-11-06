@@ -35,7 +35,7 @@ export default function Dashboard(props) {
         return <>
             <div className="pt-4 max-w-2xl">
                 <table>
-                {Number}
+                    {Number}
                     <tr>
                         <th>Product Name</th>
                         <th>Quantity</th>
@@ -58,7 +58,7 @@ export default function Dashboard(props) {
         return (<>
 
             <div className="w-5/6 grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-10 my-10 mx-8 ">
-                
+
                 {uniq_fast(ordersdetail).map(orders =>
                     <>{console.log(orders)}
                         <div id={orders.orderNumber} className="overlay pt-20 ">
@@ -94,19 +94,21 @@ export default function Dashboard(props) {
     }
 
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            {console.log(props)}
-            <Head title="Dashboard" />
+        <>
+            {props.auth.user.isAdmin ? (<AuthenticatedLayout
+                auth={props.auth}
+                errors={props.errors}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+            >
+                {console.log(props)}
+                <Head title="Dashboard" />
 
-            <div className="py-12 flex place-content-center">
-                {adminDash()}
-            </div>
+                <div className="py-12 flex place-content-center">
+                    {adminDash()}
+                </div>
 
-        </AuthenticatedLayout>
+            </AuthenticatedLayout>) : (window.location.href = "/")}
+        </>
     );
 }
 

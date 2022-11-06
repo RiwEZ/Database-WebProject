@@ -11,7 +11,7 @@ use App\Http\Controllers\Log;
 use App\Http\Controllers\Inertia;
 use App\Models\Product;
 use App\Models\Orders;
-use App\Models\Ordersdetail;
+use App\Models\OrdersDetail;
 Use \Carbon\Carbon;
 
 class CartController extends Controller
@@ -142,7 +142,7 @@ class CartController extends Controller
             $i = 1;
           foreach ($userCart as $p) {
             $stockProduct = Product::where('productCode', $p->productCode)->first();
-            $OrdersDD = new Ordersdetail();
+            $OrdersDD = new OrdersDetail();
             $OrdersDD->orderNumber = $maxKey;
             $OrdersDD->productCode =  $p->productCode;
             $qty = $p->productQuantity;
