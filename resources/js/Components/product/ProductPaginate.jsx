@@ -27,7 +27,7 @@ export default function ProductPaginate({productsChunk, handleCardClick}) {
                         <ProductCard product={p} onClick={handleCardClick} key={p.productCode}/>
                     )}
                 </div>
-                <div className="text-white text-center text-2xl space-x-5">
+                <div className="text-white text-center text-1xl md:text-2xl md:space-x-5">
                     {productsChunk.map((_, idx) =>
                         <button
                             key={idx}
