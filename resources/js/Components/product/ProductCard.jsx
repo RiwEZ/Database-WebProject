@@ -19,7 +19,7 @@ export default function ProductCard({product, onClick}) {
                 </div>
                 <div>
                     <h5 className="text-xl font-bold">In Stock: {product.quantityInStock}</h5>
-                    <h5 className="text-2xl font-bold">Price {product.buyPrice}$</h5>
+                    <h5 className="text-2xl font-bold">Price {product.MSRP}$</h5>
                 </div>
             </div>
         </>
